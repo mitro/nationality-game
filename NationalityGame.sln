@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2024
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NationalityGame.App", "NationalityGame.App\NationalityGame.App.csproj", "{4628ED3D-BF7A-4974-8459-4BE47C34640E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NationalityGame.Mechanics", "NationalityGame.Mechanics\NationalityGame.Mechanics.csproj", "{A6E54DF0-8BF2-4E61-8441-C77C847A8470}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4628ED3D-BF7A-4974-8459-4BE47C34640E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4628ED3D-BF7A-4974-8459-4BE47C34640E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4628ED3D-BF7A-4974-8459-4BE47C34640E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4628ED3D-BF7A-4974-8459-4BE47C34640E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6E54DF0-8BF2-4E61-8441-C77C847A8470}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6E54DF0-8BF2-4E61-8441-C77C847A8470}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6E54DF0-8BF2-4E61-8441-C77C847A8470}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6E54DF0-8BF2-4E61-8441-C77C847A8470}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {020878ED-9BB7-4E73-91F5-D8B253DF8E52}
+	EndGlobalSection
+EndGlobal
