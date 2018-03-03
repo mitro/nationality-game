@@ -26,6 +26,8 @@ namespace NationalityGame.Mechanics
 
         public Bucket BottomLeftBucket { get; }
 
+        public IEnumerable<Bucket> Buckets => _buckets;
+
         public Photo CurrentPhoto { get; private set; }
 
         public Game(

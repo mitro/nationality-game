@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -13,102 +15,133 @@ namespace NationalityGame.App
 
         private readonly Game _game;
 
+        private List<BucketRenderer> _bucketRenderers = new List<BucketRenderer>();
+
+        private PhotoRenderer _photoRenderer;
+
         public GameRenderer(Canvas canvas, Game game)
         {
             _canvas = canvas;
             _game = game;
 
+            AddGameObjects();
+        }
+
+        private void AddGameObjects()
+        {
             _canvas.Children.Clear();
+
+            _bucketRenderers = _game.Buckets
+                .Select(bucket => new BucketRenderer(bucket, _canvas))
+                .ToList();
+
+            _photoRenderer = new PhotoRenderer(_game.CurrentPhoto, _canvas);
         }
 
         public void Render()
         {
-            _canvas.Children.Clear();
-
-            RenderBucket(_game.TopLeftBucket);
-            RenderBucket(_game.TopRightBucket);
-            RenderBucket(_game.BottomRightBucket);
-            RenderBucket(_game.BottomLeftBucket);
-
-            RenderPhoto();
+            _bucketRenderers.ForEach(bucket => bucket.Render());
+            _photoRenderer.Render();
         }
 
-        private void RenderBucket(Bucket bucket)
+        class BucketRenderer
         {
-            var rectangle = new Rectangle
+            private readonly Bucket _bucket;
+
+            private readonly Canvas _canvas;
+
+            private Rectangle _rectangle;
+
+            public BucketRenderer(Bucket bucket, Canvas canvas)
             {
-                Height = 100,
-                Width = 100,
-                Fill = new SolidColorBrush(Colors.Blue),
-                //BorderBrush = new SolidColorBrush(Colors.Black),
-                //BorderThickness = new Thickness(2),
-                //Child = new TextBlock
-                //{
-                //    Text = bucket.Label,
-                //    HorizontalAlignment = HorizontalAlignment.Center,
-                //    VerticalAlignment = VerticalAlignment.Center,
-                //},
-            };
+                _bucket = bucket;
+                _canvas = canvas;
 
-            SetCornerPosition(rectangle, bucket.Corner);
+                _rectangle = new Rectangle
+                {
+                    Height = 100,
+                    Width = 100,
+                    Fill = new SolidColorBrush(Colors.Blue),
+                    //BorderBrush = new SolidColorBrush(Colors.Black),
+                    //BorderThickness = new Thickness(2),
+                    //Child = new TextBlock
+                    //{
+                    //    Text = bucket.Label,
+                    //    HorizontalAlignment = HorizontalAlignment.Center,
+                    //    VerticalAlignment = VerticalAlignment.Center,
+                    //},
+                };
 
-            _canvas.Children.Add(rectangle);
-        }
+                switch (_bucket.Corner)
+                {
+                    case Corner.TopLeft:
+                        Canvas.SetTop(_rectangle, 0);
+                        Canvas.SetLeft(_rectangle, 0);
+                        break;
 
-        private void RenderPhoto()
-        {
-            if (_game.CurrentPhoto == null)
-            {
-                return;
+                    case Corner.TopRight:
+                        Canvas.SetTop(_rectangle, 0);
+                        Canvas.SetRight(_rectangle, 0);
+                        break;
+
+                    case Corner.BottomRight:
+                        Canvas.SetBottom(_rectangle, 0);
+                        Canvas.SetRight(_rectangle, 0);
+                        break;
+
+                    case Corner.BottomLeft:
+                        Canvas.SetBottom(_rectangle, 0);
+                        Canvas.SetLeft(_rectangle, 0);
+                        break;
+
+                    default:
+                        throw new ArgumentException($"Invalid {nameof(Corner)} value: {_bucket.Corner}. Unable to proceed. Check the code.");
+                }
+
+                _canvas.Children.Add(_rectangle);
             }
 
-            var rectangle = new Rectangle
+            public void Render()
             {
-                Height = 100,
-                Width = 100,
-                Fill = new SolidColorBrush(Colors.Blue),
-                //BorderBrush = new SolidColorBrush(Colors.Black),
-                //BorderThickness = new Thickness(2),
-                //Child = new TextBlock
-                //{
-                //    Text = bucket.Label,
-                //    HorizontalAlignment = HorizontalAlignment.Center,
-                //    VerticalAlignment = VerticalAlignment.Center,
-                //},
-            };
 
-            Canvas.SetLeft(rectangle, _game.CurrentPhoto.Center.X);
-            Canvas.SetTop(rectangle, _game.CurrentPhoto.Center.Y);
-
-            _canvas.Children.Add(rectangle);
+            }
         }
 
-        private void SetCornerPosition(Rectangle rectangle, Corner corner)
+        public class PhotoRenderer
         {
-            switch (corner)
+            private readonly Photo _photo;
+
+            private readonly Canvas _canvas;
+
+            private Rectangle _rectangle;
+
+            public PhotoRenderer(Photo photo, Canvas canvas)
             {
-                case Corner.TopLeft:
-                    Canvas.SetTop(rectangle, 0);
-                    Canvas.SetLeft(rectangle, 0);
-                    break;
+                _photo = photo;
+                _canvas = canvas;
 
-                case Corner.TopRight:
-                    Canvas.SetTop(rectangle, 0);
-                    Canvas.SetRight(rectangle, 0);
-                    break;
+                _rectangle = new Rectangle
+                {
+                    Height = 100,
+                    Width = 100,
+                    Fill = new SolidColorBrush(Colors.Blue),
+                    //BorderBrush = new SolidColorBrush(Colors.Black),
+                    //BorderThickness = new Thickness(2),
+                    //Child = new TextBlock
+                    //{
+                    //    Text = bucket.Label,
+                    //    HorizontalAlignment = HorizontalAlignment.Center,
+                    //    VerticalAlignment = VerticalAlignment.Center,
+                    //},
+                };
 
-                case Corner.BottomRight:
-                    Canvas.SetBottom(rectangle, 0);
-                    Canvas.SetRight(rectangle, 0);
-                    break;
+                _canvas.Children.Add(_rectangle);
+            }
 
-                case Corner.BottomLeft:
-                    Canvas.SetBottom(rectangle, 0);
-                    Canvas.SetLeft(rectangle, 0);
-                    break;
-
-                default:
-                    throw new ArgumentException($"Invalid {nameof(Corner)} value: {corner}. Unable to proceed. Check the code.");
+            public void Render()
+            {
+                Canvas.SetLeft(_rectangle, _photo.Center.X);
+                Canvas.SetTop(_rectangle, _photo.Center.Y);
             }
         }
     }
