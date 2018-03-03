@@ -59,10 +59,9 @@ namespace NationalityGame.App.Rendering.Canvas
                 {
                     Height = _photo.Height,
                     Width = _photo.Width,
-                    Stroke = new SolidColorBrush(Colors.Blue),
 
                     Fill = image,
-                    Opacity = 1.1,
+                    Opacity = 1.0,
                 };
 
                 _canvas.Children.Add(_rectangle);

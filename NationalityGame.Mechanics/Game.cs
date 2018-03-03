@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
+using NationalityGame.Mechanics.Configuration;
 
 namespace NationalityGame.Mechanics
 {
@@ -12,6 +14,7 @@ namespace NationalityGame.Mechanics
         private readonly double _boardWidth;
 
         private readonly double _boardHeight;
+        private readonly GameSettings _settings;
 
         private double _velocity;
 
@@ -29,28 +32,43 @@ namespace NationalityGame.Mechanics
 
         public event Action GameStarted;
 
+        public event Action<int> ScoreChanged; 
+
         private GameState _state;
 
         private Bucket _chosenBucket;
 
+        private int _currentScore;
+
+        private int _roundsLeft = 10;
+
         public Game(
             double boardWidth,
-            double boardHeight)
+            double boardHeight,
+            GameSettings settings)
         {
             _boardWidth = boardWidth;
             _boardHeight = boardHeight;
+            _settings = settings;
 
-            _buckets.Add(new Bucket("Japaneese", new Point(0, 0), 100, 100));
-            _buckets.Add(new Bucket("Chinese", new Point(_boardWidth - 100, 0), 100, 100));
-            _buckets.Add(new Bucket("Korean", new Point(_boardWidth - 100, _boardHeight - 100), 100, 100));
-            _buckets.Add(new Bucket("Thai", new Point(0, _boardHeight - 100), 100, 100));
+            _buckets.Add(new Bucket("Japaneese", new Point(0, 0), 150, 150));
+            _buckets.Add(new Bucket("Chinese", new Point(_boardWidth - 150, 0), 150, 150));
+            _buckets.Add(new Bucket("Korean", new Point(_boardWidth - 150, _boardHeight - 150), 150, 150));
+            _buckets.Add(new Bucket("Thai", new Point(0, _boardHeight - 150), 150, 150));
 
             _state = GameState.GameNotStarted;
         }
 
         public void Start()
         {
-            Photo = new Photo(new Point(_boardWidth / 2, 0), 100, 100);
+            if (_roundsLeft == 0)
+            {
+                return;
+            }
+
+            _roundsLeft--;
+
+            Photo = new Photo(new Point(_boardWidth / 2, 0), 150, 150, "Thai");
 
             Photo.SetMovementVector(new Vector(0, 1));
 
@@ -84,6 +102,17 @@ namespace NationalityGame.Mechanics
             {
                 if (Photo.GetVectorTo(_chosenBucket).Length < 5)
                 {
+                    if (Photo.Nationality.Equals(_chosenBucket.Nationality, StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        _currentScore += 20;
+                    }
+                    else
+                    {
+                        _currentScore -= 5;
+                    }
+
+                    ScoreChanged?.Invoke(_currentScore);
+
                     Start();
                 }
             }
@@ -102,7 +131,7 @@ namespace NationalityGame.Mechanics
                     Bucket = bucket,
                     Angle = Math.Abs(Vector.AngleBetween(vector, Photo.GetVectorTo(bucket)))
                 })
-                .Where(bucketData => bucketData.Angle <= 30)
+                .Where(bucketData => bucketData.Angle <= 20)
                 .OrderBy(bucketData => bucketData.Angle)
                 .Select(bucketData => bucketData.Bucket)
                 .FirstOrDefault();

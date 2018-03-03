@@ -4,7 +4,7 @@ namespace NationalityGame.Mechanics
 {
     public class Bucket : GameObject
     {
-        public string Label { get; }
+        public string Nationality { get; }
 
         public Point Position { get; }
 
@@ -12,10 +12,10 @@ namespace NationalityGame.Mechanics
 
         public double Height { get; }
 
-        public Bucket(string label, Point position, double width, double height)
+        public Bucket(string nationality, Point position, double width, double height)
             : base(new Point(position.X + width / 2, position.Y + height / 2))
         {
-            Label = label;
+            Nationality = nationality;
             Position = position;
             Width = width;
             Height = height;

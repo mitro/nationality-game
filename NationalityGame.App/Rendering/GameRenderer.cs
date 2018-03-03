@@ -1,5 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
+using System.Windows;
+using System.Windows.Controls;
 using NationalityGame.App.Rendering.Canvas;
 using NationalityGame.Mechanics;
 
@@ -8,6 +12,7 @@ namespace NationalityGame.App.Rendering
     public class GameRenderer
     {
         private readonly System.Windows.Controls.Canvas _canvas;
+        private readonly Label _scoreLabel;
 
         private readonly Game _game;
 
@@ -15,12 +20,23 @@ namespace NationalityGame.App.Rendering
 
         private PhotoRenderer _photoRenderer;
 
-        public GameRenderer(System.Windows.Controls.Canvas canvas, Game game)
+        public GameRenderer(System.Windows.Controls.Canvas canvas, Label scoreLabel, Game game)
         {
             _canvas = canvas;
+            _scoreLabel = scoreLabel;
             _game = game;
 
+            _game.ScoreChanged += GameOnScoreChanged;
+
             AddGameObjects();
+        }
+
+        private void GameOnScoreChanged(int score)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                _scoreLabel.Content = score.ToString();
+            });
         }
 
         private void AddGameObjects()

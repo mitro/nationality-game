@@ -5,8 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NationalityGame.App"
         mc:Ignorable="d"
-        Title="Nationality Game" Height="600" Width="800" Loaded="Window_Loaded">
+        Title="Nationality Game" Height="600" Width="800" Loaded="Window_Loaded" WindowState="Maximized">
     <Grid>
-        <Canvas x:Name="GameCanvas" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="100"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Canvas Grid.Row="0" x:Name="GameCanvas" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="White"/>
+        <StackPanel Grid.Row="1">
+            <Label Name="ScoreLabel"></Label>
+        </StackPanel>
     </Grid>
 </Window>

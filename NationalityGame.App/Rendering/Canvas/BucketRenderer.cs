@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using NationalityGame.Mechanics;
@@ -7,28 +9,33 @@ namespace NationalityGame.App.Rendering.Canvas
 {
     class BucketRenderer
     {
-        private readonly Bucket _bucket;
-
-        private readonly System.Windows.Controls.Canvas _canvas;
-
-        private Rectangle _rectangle;
-
         public BucketRenderer(Bucket bucket, System.Windows.Controls.Canvas canvas)
         {
-            _bucket = bucket;
-            _canvas = canvas;
-
-            _rectangle = new Rectangle
+            var rectangle = new Rectangle
             {
-                Height = _bucket.Height,
-                Width = _bucket.Width,
+                Height = bucket.Height,
+                Width = bucket.Width,
                 Fill = new SolidColorBrush(Colors.BlanchedAlmond)
             };
 
-            System.Windows.Controls.Canvas.SetTop(_rectangle, bucket.Position.Y);
-            System.Windows.Controls.Canvas.SetLeft(_rectangle, bucket.Position.X);
+            var textBlock = new Label
+            {
+                Content = bucket.Nationality,
+                Height = bucket.Height,
+                Width = bucket.Width,
+                VerticalContentAlignment = VerticalAlignment.Center,
+                HorizontalContentAlignment = HorizontalAlignment.Center,
+                FontSize = 16
+            };
 
-            _canvas.Children.Add(_rectangle);
+            System.Windows.Controls.Canvas.SetTop(rectangle, bucket.Position.Y);
+            System.Windows.Controls.Canvas.SetLeft(rectangle, bucket.Position.X);
+
+            System.Windows.Controls.Canvas.SetTop(textBlock, bucket.Position.Y);
+            System.Windows.Controls.Canvas.SetLeft(textBlock, bucket.Position.X);
+
+            canvas.Children.Add(rectangle);
+            canvas.Children.Add(textBlock);
         }
 
         public void Render()

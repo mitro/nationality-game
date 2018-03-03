@@ -38,15 +38,17 @@ namespace NationalityGame.App
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            var settingsReader = new SettingsReader();
+
+            var settings = settingsReader.Read();
+
             _panRecognizer = new PanRecognizer(GameCanvas);
 
             _panRecognizer.PanRecognized += PanRecognizerOnPanRecognized;
 
-            var gameBuilder = new GameBuilder();
+            _game = new Game(GameCanvas.ActualWidth, GameCanvas.ActualHeight, settings);
 
-            _game = gameBuilder.Build(GameCanvas.ActualWidth, GameCanvas.ActualHeight);
-
-            _gameRenderer = new GameRenderer(GameCanvas, _game);
+            _gameRenderer = new GameRenderer(GameCanvas, ScoreLabel, _game);
 
             Timer timer = new Timer
             {

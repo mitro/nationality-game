@@ -1,0 +1,32 @@
+﻿{
+    "photos": [
+        {
+            "Nationality": "Thai",
+            "ImagePath": "d:\\face1.jpg"
+        },
+        {
+            "Nationality": "Korean",
+            "ImagePath": "d:\\face1.jpg"
+        },
+        {
+            "Nationality": "Thai",
+            "ImagePath": "d:\\face1.jpg"
+        },
+        {
+            "Nationality": "Korean",
+            "ImagePath": "d:\\face1.jpg"
+        },
+        {
+            "Nationality": "Thai",
+            "ImagePath": "d:\\face1.jpg"
+        },
+        {
+            "Nationality": "Korean",
+            "ImagePath": "d:\\face1.jpg"
+        },
+        {
+            "Nationality": "Thai",
+            "ImagePath": "d:\\face1.jpg"
+        }
+    ] 
+}

@@ -8,10 +8,13 @@ namespace NationalityGame.Mechanics
 
         public double Height { get; }
 
-        public Photo(Point center, double width, double height) : base(center)
+        public string Nationality { get; set; }
+
+        public Photo(Point center, double width, double height, string nationality) : base(center)
         {
             Width = width;
             Height = height;
+            Nationality = nationality;
         }
     }
 }
