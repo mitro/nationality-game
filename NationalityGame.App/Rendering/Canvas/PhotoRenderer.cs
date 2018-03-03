@@ -38,6 +38,8 @@ namespace NationalityGame.App.Rendering.Canvas
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
+                _settingOpacity = false;
+
                 if (_rectangle != null)
                 {
                     _canvas.Children.Remove(_rectangle);
@@ -88,8 +90,8 @@ namespace NationalityGame.App.Rendering.Canvas
                 _rectangle.Opacity -= _opacityStep;
             }
 
-            System.Windows.Controls.Canvas.SetLeft(_rectangle, _photo.Center.X);
-            System.Windows.Controls.Canvas.SetTop(_rectangle, _photo.Center.Y);
+            System.Windows.Controls.Canvas.SetLeft(_rectangle, _photo.Center.X - _photo.Width / 2);
+            System.Windows.Controls.Canvas.SetTop(_rectangle, _photo.Center.Y - _photo.Height / 2);
         }
     }
 }

@@ -26,6 +26,7 @@ namespace NationalityGame.App
             _startPosition = args.GetPosition(_canvas);
         }
 
+        // TODO Check pan is over image
         private void CanvasOnMouseUp(object sender, MouseButtonEventArgs args)
         {
             var endPosition = args.GetPosition(_canvas);

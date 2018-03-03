@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Controls;
 using NationalityGame.App.Rendering.Canvas;
 using NationalityGame.Mechanics;
 
-namespace NationalityGame.App
+namespace NationalityGame.App.Rendering
 {
     public class GameRenderer
     {
-        private readonly Canvas _canvas;
+        private readonly System.Windows.Controls.Canvas _canvas;
 
         private readonly Game _game;
 
@@ -16,7 +15,7 @@ namespace NationalityGame.App
 
         private PhotoRenderer _photoRenderer;
 
-        public GameRenderer(Canvas canvas, Game game)
+        public GameRenderer(System.Windows.Controls.Canvas canvas, Game game)
         {
             _canvas = canvas;
             _game = game;
@@ -29,7 +28,7 @@ namespace NationalityGame.App
             _canvas.Children.Clear();
 
             _bucketRenderers = _game.Buckets
-                .Select(bucket => new BucketRenderer(_game, bucket, _canvas))
+                .Select(bucket => new BucketRenderer(bucket, _canvas))
                 .ToList();
 
             _photoRenderer = new PhotoRenderer(_game, _canvas);

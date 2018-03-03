@@ -13,20 +13,20 @@ namespace NationalityGame.App.Rendering.Canvas
 
         private Rectangle _rectangle;
 
-        public BucketRenderer(Game game, Bucket bucket, System.Windows.Controls.Canvas canvas)
+        public BucketRenderer(Bucket bucket, System.Windows.Controls.Canvas canvas)
         {
             _bucket = bucket;
             _canvas = canvas;
 
             _rectangle = new Rectangle
             {
-                Height = 100,
-                Width = 100,
-                Fill = new SolidColorBrush(Colors.Blue),
+                Height = _bucket.Height,
+                Width = _bucket.Width,
+                Fill = new SolidColorBrush(Colors.BlanchedAlmond)
             };
 
-            System.Windows.Controls.Canvas.SetTop(_rectangle, bucket.Center.Y);
-            System.Windows.Controls.Canvas.SetLeft(_rectangle, bucket.Center.X);
+            System.Windows.Controls.Canvas.SetTop(_rectangle, bucket.Position.Y);
+            System.Windows.Controls.Canvas.SetLeft(_rectangle, bucket.Position.X);
 
             _canvas.Children.Add(_rectangle);
         }

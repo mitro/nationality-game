@@ -31,6 +31,8 @@ namespace NationalityGame.Mechanics
 
         private GameState _state;
 
+        private Bucket _chosenBucket;
+
         public Game(
             double boardWidth,
             double boardHeight)
@@ -38,17 +40,17 @@ namespace NationalityGame.Mechanics
             _boardWidth = boardWidth;
             _boardHeight = boardHeight;
 
-            _buckets.Add(new Bucket("Japaneese", new Point(50, 50)));
-            _buckets.Add(new Bucket("Chinese", new Point(_boardWidth - 50, 50)));
-            _buckets.Add(new Bucket("Korean", new Point(_boardWidth - 50, _boardHeight - 50)));
-            _buckets.Add(new Bucket("Thai", new Point(50, _boardHeight - 50)));
+            _buckets.Add(new Bucket("Japaneese", new Point(0, 0), 100, 100));
+            _buckets.Add(new Bucket("Chinese", new Point(_boardWidth - 100, 0), 100, 100));
+            _buckets.Add(new Bucket("Korean", new Point(_boardWidth - 100, _boardHeight - 100), 100, 100));
+            _buckets.Add(new Bucket("Thai", new Point(0, _boardHeight - 100), 100, 100));
 
             _state = GameState.GameNotStarted;
         }
 
         public void Start()
         {
-            Photo = new Photo(new Point((_boardWidth - 50) / 2, 0), 100, 100);
+            Photo = new Photo(new Point(_boardWidth / 2, 0), 100, 100);
 
             Photo.SetMovementVector(new Vector(0, 1));
 
@@ -71,9 +73,19 @@ namespace NationalityGame.Mechanics
 
             _lastTickAt = DateTime.Now;
 
-            if (Photo.Center.Y > _boardHeight)
+            if (_state == GameState.PhotoFalling)
             {
-                Start();
+                if (Photo.Center.Y > _boardHeight)
+                {
+                    Start();
+                }
+            }
+            else if (_state == GameState.BucketChosen)
+            {
+                if (Photo.GetVectorTo(_chosenBucket).Length < 5)
+                {
+                    Start();
+                }
             }
         }
 
@@ -99,6 +111,8 @@ namespace NationalityGame.Mechanics
             {
                 return;
             }
+
+            _chosenBucket = bucketPannedTo;
 
             _state = GameState.BucketChosen;
 

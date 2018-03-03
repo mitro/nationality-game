@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Timers;
 using System.Windows;
+using NationalityGame.App.Rendering;
 using NationalityGame.Mechanics;
 
 namespace NationalityGame.App
