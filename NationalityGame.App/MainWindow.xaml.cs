@@ -42,7 +42,7 @@ namespace NationalityGame.App
 
             DispatcherTimer timer = new DispatcherTimer
             {
-                Interval = TimeSpan.FromMilliseconds(10),
+                Interval = TimeSpan.FromMilliseconds(30),
             };
 
             timer.Tick += TimerOnTick;

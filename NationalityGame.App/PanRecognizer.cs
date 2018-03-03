@@ -39,8 +39,6 @@ namespace NationalityGame.App
                 endPosition.X - _startPosition.X,
                 endPosition.Y - _startPosition.Y);
 
-            var vector2 = new Vector(1, 0);
-
             // TODO Get from settings
             if (vector1.Length >= 20)
             {

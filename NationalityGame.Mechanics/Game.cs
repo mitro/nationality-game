@@ -47,7 +47,9 @@ namespace NationalityGame.Mechanics
 
             CurrentPhoto = new Photo(new Point((_boardWidth - 50) / 2, 50));
 
-            _velocity = _boardHeight / 100000;
+            CurrentPhoto.SetMovementVector(new Vector(0, 1));
+
+            _velocity = _boardHeight / 3000;
 
             _lastTickAt = DateTime.Now;
         }
@@ -56,9 +58,7 @@ namespace NationalityGame.Mechanics
         {
             var msElapsed = (DateTime.Now - _lastTickAt).TotalMilliseconds;
 
-            CurrentPhoto.Center = new Point(
-                CurrentPhoto.Center.X,
-                CurrentPhoto.Center.Y + msElapsed * _velocity);
+            CurrentPhoto.Move(msElapsed * _velocity);
 
             _lastTickAt = DateTime.Now;
         }
@@ -75,7 +75,7 @@ namespace NationalityGame.Mechanics
                 .Select(bucket => new
                 {
                     Bucket = bucket,
-                    Angle = Math.Abs(Vector.AngleBetween(vector, CurrentPhoto.VectorTo(bucket)))
+                    Angle = Math.Abs(Vector.AngleBetween(vector, CurrentPhoto.GetVectorTo(bucket)))
                 })
                 .Where(bucket => bucket.Angle <= 15)
                 .OrderBy(bucket => bucket.Angle)
@@ -85,6 +85,11 @@ namespace NationalityGame.Mechanics
             var message = bucketPannedTo?.Corner.ToString("G") ?? "No bucket";
 
             Debug.WriteLine(message);
+
+            if (bucketPannedTo != null)
+            {
+                CurrentPhoto.SetMovementVector(CurrentPhoto.GetVectorTo(bucketPannedTo));
+            }
         }
     }
 }
