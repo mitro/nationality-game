@@ -1,18 +1,16 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Reflection;
 using System.Windows;
 
 namespace NationalityGame.Mechanics
 {
-    public class GameObject
+    public abstract class GameObject
     {
         private double _sin;
         private double _cos;
 
-        public Point Center { get; set; }
+        public Point Center { get; private set; }
 
-        public GameObject(Point center)
+        protected GameObject(Point center)
         {
             Center = center;
         }

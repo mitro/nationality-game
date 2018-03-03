@@ -6,12 +6,9 @@ namespace NationalityGame.Mechanics
     {
         public string Label { get; }
 
-        public Corner Corner { get; }
-
-        public Bucket(string label, Corner corner, Point center) : base(center)
+        public Bucket(string label, Point center) : base(center)
         {
             Label = label;
-            Corner = corner;
         }
     }
 }

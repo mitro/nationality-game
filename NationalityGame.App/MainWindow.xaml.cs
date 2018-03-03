@@ -1,6 +1,6 @@
-﻿using System;
+﻿using System.ComponentModel;
+using System.Timers;
 using System.Windows;
-using System.Windows.Threading;
 using NationalityGame.Mechanics;
 
 namespace NationalityGame.App
@@ -15,15 +15,24 @@ namespace NationalityGame.App
         private GameRenderer _gameRenderer;
         private PanRecognizer _panRecognizer;
 
+        private readonly BackgroundWorker _backgroundWorker = new BackgroundWorker();
+
         public MainWindow()
         {
             InitializeComponent();
+
+            _backgroundWorker.DoWork += BackgroundWorkerOnDoWork;
+            _backgroundWorker.RunWorkerCompleted += BackgroundWorkerOnRunWorkerCompleted;
         }
 
-        private void TimerOnTick(object sender, EventArgs eventArgs)
+        private void BackgroundWorkerOnRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs runWorkerCompletedEventArgs)
+        {
+            Dispatcher.Invoke(() => _gameRenderer.Render());
+        }
+
+        private void BackgroundWorkerOnDoWork(object sender, DoWorkEventArgs doWorkEventArgs)
         {
             _game.Tick();
-            _gameRenderer.Render();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -38,16 +47,26 @@ namespace NationalityGame.App
 
             _gameRenderer = new GameRenderer(GameCanvas, _game);
 
-            _gameRenderer.Render();
-
-            DispatcherTimer timer = new DispatcherTimer
+            Timer timer = new Timer
             {
-                Interval = TimeSpan.FromMilliseconds(30),
+                Interval = 30
             };
 
-            timer.Tick += TimerOnTick;
+            timer.Elapsed += TimerOnElapsed;
+
+            _game.Start();
 
             timer.Start();
+        }
+
+        private void TimerOnElapsed(object sender, ElapsedEventArgs args)
+        {
+            if (_backgroundWorker.IsBusy)
+            {
+                return;
+            }
+
+            _backgroundWorker.RunWorkerAsync();
         }
 
         private void PanRecognizerOnPanRecognized(Vector vector)

@@ -1,10 +1,7 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using NationalityGame.Mechanics;
 
 namespace NationalityGame.App
 {
@@ -14,16 +11,14 @@ namespace NationalityGame.App
 
         private Point _startPosition;
 
-        // TODO Init
         public event Action<Vector> PanRecognized;
 
         public PanRecognizer(Canvas canvas)
         {
             _canvas = canvas;
 
-            _canvas.MouseDown += CanvasOnMouseDown;
-
             _canvas.MouseUp += CanvasOnMouseUp;
+            _canvas.MouseDown += CanvasOnMouseDown;
         }
 
         private void CanvasOnMouseDown(object sender, MouseButtonEventArgs args)
@@ -39,8 +34,7 @@ namespace NationalityGame.App
                 endPosition.X - _startPosition.X,
                 endPosition.Y - _startPosition.Y);
 
-            // TODO Get from settings
-            if (vector1.Length >= 20)
+            if (vector1.Length >= 10)
             {
                 PanRecognized?.Invoke(vector1);
             }

@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 
 namespace NationalityGame.Mechanics
 {
+    // TODO Make full screen
+    // TODO Add "allowMindChanging"
     public class Game
     {
         private readonly double _boardWidth;
@@ -18,17 +19,17 @@ namespace NationalityGame.Mechanics
 
         private readonly IList<Bucket> _buckets = new List<Bucket>();
 
-        public Bucket TopLeftBucket { get; }
-
-        public Bucket TopRightBucket { get; }
-
-        public Bucket BottomRightBucket { get; }
-
-        public Bucket BottomLeftBucket { get; }
-
         public IEnumerable<Bucket> Buckets => _buckets;
 
-        public Photo CurrentPhoto { get; private set; }
+        public Photo Photo { get; private set; }
+
+        public event Action<Bucket> PhotoDirectedToBucket;
+
+        public event Action<double> VelocityChanged;
+
+        public event Action GameStarted;
+
+        private GameState _state;
 
         public Game(
             double boardWidth,
@@ -37,61 +38,83 @@ namespace NationalityGame.Mechanics
             _boardWidth = boardWidth;
             _boardHeight = boardHeight;
 
-            TopLeftBucket = new Bucket("Japaneese", Corner.TopLeft, new Point(50, 50));
-            TopRightBucket = new Bucket("Chinese", Corner.TopRight, new Point(_boardWidth - 50, 50));
-            BottomRightBucket = new Bucket("Korean", Corner.BottomRight, new Point(_boardWidth - 50, _boardHeight - 50));
-            BottomLeftBucket = new Bucket("Thai", Corner.BottomLeft, new Point(50, _boardHeight - 50));
+            _buckets.Add(new Bucket("Japaneese", new Point(50, 50)));
+            _buckets.Add(new Bucket("Chinese", new Point(_boardWidth - 50, 50)));
+            _buckets.Add(new Bucket("Korean", new Point(_boardWidth - 50, _boardHeight - 50)));
+            _buckets.Add(new Bucket("Thai", new Point(50, _boardHeight - 50)));
 
-            _buckets.Add(TopLeftBucket);
-            _buckets.Add(TopRightBucket);
-            _buckets.Add(BottomRightBucket);
-            _buckets.Add(BottomLeftBucket);
+            _state = GameState.GameNotStarted;
+        }
 
-            CurrentPhoto = new Photo(new Point((_boardWidth - 50) / 2, 50));
+        public void Start()
+        {
+            Photo = new Photo(new Point((_boardWidth - 50) / 2, 0), 100, 100);
 
-            CurrentPhoto.SetMovementVector(new Vector(0, 1));
+            Photo.SetMovementVector(new Vector(0, 1));
 
             _velocity = _boardHeight / 3000;
 
+            VelocityChanged?.Invoke(_velocity);
+
             _lastTickAt = DateTime.Now;
+
+            GameStarted?.Invoke();
+
+            _state = GameState.PhotoFalling;
         }
 
         public void Tick()
         {
             var msElapsed = (DateTime.Now - _lastTickAt).TotalMilliseconds;
 
-            CurrentPhoto.Move(msElapsed * _velocity);
+            Photo.Move(msElapsed * _velocity);
 
             _lastTickAt = DateTime.Now;
+
+            if (Photo.Center.Y > _boardHeight)
+            {
+                Start();
+            }
         }
 
         public void ProcessPan(Vector vector)
         {
-            if (CurrentPhoto == null)
+            if (_state != GameState.PhotoFalling)
             {
                 return;
             }
 
-            // TODO Process situation when two angle to more distant object must be more
             var bucketPannedTo = _buckets
                 .Select(bucket => new
                 {
                     Bucket = bucket,
-                    Angle = Math.Abs(Vector.AngleBetween(vector, CurrentPhoto.GetVectorTo(bucket)))
+                    Angle = Math.Abs(Vector.AngleBetween(vector, Photo.GetVectorTo(bucket)))
                 })
-                .Where(bucket => bucket.Angle <= 15)
-                .OrderBy(bucket => bucket.Angle)
-                .Select(bucket => bucket.Bucket)
+                .Where(bucketData => bucketData.Angle <= 30)
+                .OrderBy(bucketData => bucketData.Angle)
+                .Select(bucketData => bucketData.Bucket)
                 .FirstOrDefault();
 
-            var message = bucketPannedTo?.Corner.ToString("G") ?? "No bucket";
-
-            Debug.WriteLine(message);
-
-            if (bucketPannedTo != null)
+            if (bucketPannedTo == null)
             {
-                CurrentPhoto.SetMovementVector(CurrentPhoto.GetVectorTo(bucketPannedTo));
+                return;
             }
+
+            _state = GameState.BucketChosen;
+
+            Photo.SetMovementVector(Photo.GetVectorTo(bucketPannedTo));
+            PhotoDirectedToBucket?.Invoke(bucketPannedTo);
         }
+    }
+
+    public enum GameState
+    {
+        Undefined,
+
+        GameNotStarted,
+
+        PhotoFalling,
+
+        BucketChosen
     }
 }
