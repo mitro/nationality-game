@@ -57,14 +57,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="GameBootstrapper.cs" />
+    <Compile Include="Rendering\Canvas\ControlsView.cs" />
+    <Compile Include="Rendering\IView.cs" />
     <Compile Include="SettingsReader.cs" />
     <None Include="packages.config" />
     <None Include="settings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <Compile Include="Rendering\Canvas\BucketRenderer.cs" />
-    <Compile Include="Rendering\Canvas\PhotoRenderer.cs" />
-    <Page Include="MainWindow.xaml">
+    <Compile Include="Rendering\Canvas\BucketView.cs" />
+    <Compile Include="Rendering\Canvas\PhotoView.cs" />
+    <Page Include="GameWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -72,9 +75,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Rendering\GameRenderer.cs" />
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="Rendering\Canvas\CanvasPresenter.cs" />
+    <Compile Include="GameWindow.xaml.cs">
+      <DependentUpon>GameWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

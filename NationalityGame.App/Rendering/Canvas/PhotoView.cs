@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using System.Windows.Threading;
 using NationalityGame.Mechanics;
 
 namespace NationalityGame.App.Rendering.Canvas
 {
-    public class PhotoRenderer
+    public class PhotoView : IView
     {
         private readonly Game _game;
         private readonly System.Windows.Controls.Canvas _canvas;
@@ -24,7 +24,7 @@ namespace NationalityGame.App.Rendering.Canvas
 
         private double _opacityStep;
 
-        public PhotoRenderer(Game game, System.Windows.Controls.Canvas canvas)
+        public PhotoView(Game game, System.Windows.Controls.Canvas canvas)
         {
             _game = game;
             _canvas = canvas;

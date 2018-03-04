@@ -2,23 +2,24 @@
 using System.Timers;
 using System.Windows;
 using NationalityGame.App.Rendering;
+using NationalityGame.App.Rendering.Canvas;
 using NationalityGame.Mechanics;
 
 namespace NationalityGame.App
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for GameWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class GameWindow : Window
     {
         private Game _game;
 
-        private GameRenderer _gameRenderer;
+        private CanvasPresenter _canvasRenderer;
         private PanRecognizer _panRecognizer;
 
         private readonly BackgroundWorker _backgroundWorker = new BackgroundWorker();
 
-        public MainWindow()
+        public GameWindow()
         {
             InitializeComponent();
 
@@ -28,7 +29,7 @@ namespace NationalityGame.App
 
         private void BackgroundWorkerOnRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs runWorkerCompletedEventArgs)
         {
-            Dispatcher.Invoke(() => _gameRenderer.Render());
+            Dispatcher.Invoke(() => _canvasRenderer.Render());
         }
 
         private void BackgroundWorkerOnDoWork(object sender, DoWorkEventArgs doWorkEventArgs)
@@ -48,7 +49,7 @@ namespace NationalityGame.App
 
             _game = new Game(GameCanvas.ActualWidth, GameCanvas.ActualHeight, settings);
 
-            _gameRenderer = new GameRenderer(GameCanvas, ScoreLabel, _game);
+            _canvasRenderer = new CanvasPresenter(this, _game);
 
             Timer timer = new Timer
             {

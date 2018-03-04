@@ -7,9 +7,9 @@ using NationalityGame.Mechanics;
 
 namespace NationalityGame.App.Rendering.Canvas
 {
-    class BucketRenderer
+    class BucketView : IView
     {
-        public BucketRenderer(Bucket bucket, System.Windows.Controls.Canvas canvas)
+        public BucketView(Bucket bucket, System.Windows.Controls.Canvas canvas)
         {
             var rectangle = new Rectangle
             {
@@ -18,7 +18,7 @@ namespace NationalityGame.App.Rendering.Canvas
                 Fill = new SolidColorBrush(Colors.BlanchedAlmond)
             };
 
-            var textBlock = new Label
+            var label = new Label
             {
                 Content = bucket.Nationality,
                 Height = bucket.Height,
@@ -31,11 +31,11 @@ namespace NationalityGame.App.Rendering.Canvas
             System.Windows.Controls.Canvas.SetTop(rectangle, bucket.Position.Y);
             System.Windows.Controls.Canvas.SetLeft(rectangle, bucket.Position.X);
 
-            System.Windows.Controls.Canvas.SetTop(textBlock, bucket.Position.Y);
-            System.Windows.Controls.Canvas.SetLeft(textBlock, bucket.Position.X);
+            System.Windows.Controls.Canvas.SetTop(label, bucket.Position.Y);
+            System.Windows.Controls.Canvas.SetLeft(label, bucket.Position.X);
 
             canvas.Children.Add(rectangle);
-            canvas.Children.Add(textBlock);
+            canvas.Children.Add(label);
         }
 
         public void Render()
