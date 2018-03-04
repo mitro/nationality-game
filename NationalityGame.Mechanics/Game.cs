@@ -16,9 +16,7 @@ namespace NationalityGame.Mechanics
 
         private DateTime _lastTickAt;
 
-        private readonly IList<Bucket> _buckets = new List<Bucket>();
-
-        public IEnumerable<Bucket> Buckets => _buckets;
+        public IEnumerable<Bucket> Buckets { get; }
 
         public Photo Photo { get; private set; }
 
@@ -38,22 +36,19 @@ namespace NationalityGame.Mechanics
 
         private int _roundsLeft = 3;
 
-        public Game(Board board)
+        public Game(Board board, IEnumerable<Bucket> buckets)
         {
             _board = board;
 
-            _buckets.Add(new Bucket("Japaneese", new Point(0, 0), 150, 150));
-            _buckets.Add(new Bucket("Chinese", new Point(_board.Width - 150, 0), 150, 150));
-            _buckets.Add(new Bucket("Korean", new Point(_board.Width - 150, _board.Height - 150), 150, 150));
-            _buckets.Add(new Bucket("Thai", new Point(0, _board.Height - 150), 150, 150));
+            Buckets = buckets;
         }
 
         public void Start()
         {
+            _chosenBucket = null;
+
             if (_roundsLeft == 0)
             {
-                _chosenBucket = null;
-
                 RoundFinished?.Invoke(_currentScore);
 
                 return;
@@ -61,7 +56,7 @@ namespace NationalityGame.Mechanics
 
             _roundsLeft--;
 
-            Photo = new Photo(new Point(_board.Width / 2, 0), 150, 150, "Thai");
+            Photo = new Photo(new Point(_board.Width / 2, 0), "Thai");
 
             Photo.SetMovementVector(new Vector(0, 1));
 
@@ -99,20 +94,25 @@ namespace NationalityGame.Mechanics
                 }
                 else if (_chosenBucket != null)
                 {
-                    if (Photo.Nationality.Equals(_chosenBucket.Nationality, StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        _currentScore += 20;
-                    }
-                    else
-                    {
-                        _currentScore -= 5;
-                    }
+                    UpdateScore();
 
                     Start();
                 }
             }
 
             TickProcessed?.Invoke();
+        }
+
+        private void UpdateScore()
+        {
+            if (Photo.Nationality.Equals(_chosenBucket.Nationality, StringComparison.InvariantCultureIgnoreCase))
+            {
+                _currentScore += 20;
+            }
+            else
+            {
+                _currentScore -= 5;
+            }
         }
 
         private bool PhotoLeftBoard()
@@ -127,7 +127,7 @@ namespace NationalityGame.Mechanics
                 return;
             }
 
-            var bucketPannedTo = _buckets
+            var bucketPannedTo = Buckets
                 .Select(bucket => new
                 {
                     Bucket = bucket,

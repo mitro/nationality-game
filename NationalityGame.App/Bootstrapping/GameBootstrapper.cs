@@ -1,4 +1,6 @@
-﻿using NationalityGame.Mechanics;
+﻿using System.Collections.Generic;
+using System.Windows;
+using NationalityGame.Mechanics;
 using NationalityGame.Mechanics.Domain;
 using NationalityGame.Presentation;
 
@@ -14,7 +16,15 @@ namespace NationalityGame.App.Bootstrapping
         {
             var board = new Board(window.GameCanvas.ActualWidth, window.GameCanvas.ActualHeight);
 
-            _game = new Game(board);
+            var buckets = new List<Bucket>
+            {
+                new Bucket("Japaneese", new Point(0, 0), 150, 150),
+                new Bucket("Chinese", new Point(board.Width - 150, 0), 150, 150),
+                new Bucket("Korean", new Point(board.Width - 150, board.Height - 150), 150, 150),
+                new Bucket("Thai", new Point(0, board.Height - 150), 150, 150)
+            };
+
+            _game = new Game(board, buckets);
 
             var presenterFactory = new GamePresenterWpfFactory();
 

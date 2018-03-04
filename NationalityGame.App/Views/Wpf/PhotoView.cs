@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
@@ -13,7 +12,11 @@ namespace NationalityGame.App.Views.Wpf
 {
     public class PhotoView : IPhotoView
     {
+        private const double Width = 150;
+        private const double Height = 150;
+
         private readonly Game _game;
+
         private readonly System.Windows.Controls.Canvas _canvas;
 
         private Photo _photo;
@@ -59,8 +62,8 @@ namespace NationalityGame.App.Views.Wpf
 
                 _rectangle = new Rectangle
                 {
-                    Height = _photo.Height,
-                    Width = _photo.Width,
+                    Height = Height,
+                    Width = Width,
 
                     Fill = image,
                     Opacity = 1.0,
@@ -84,17 +87,6 @@ namespace NationalityGame.App.Views.Wpf
             Debug.WriteLine(_opacityStep);
         }
 
-        public void Render()
-        {
-            //if (_settingOpacity)
-            //{
-            //    _rectangle.Opacity -= _opacityStep;
-            //}
-
-            //System.Windows.Controls.Canvas.SetLeft(_rectangle, _photo.Center.X - _photo.Width / 2);
-            //System.Windows.Controls.Canvas.SetTop(_rectangle, _photo.Center.Y - _photo.Height / 2);
-        }
-
         public void Update()
         {
             UiThread.Dispatch(() =>
@@ -104,8 +96,8 @@ namespace NationalityGame.App.Views.Wpf
                     _rectangle.Opacity -= _opacityStep;
                 }
 
-                System.Windows.Controls.Canvas.SetLeft(_rectangle, _photo.Center.X - _photo.Width / 2);
-                System.Windows.Controls.Canvas.SetTop(_rectangle, _photo.Center.Y - _photo.Height / 2);
+                System.Windows.Controls.Canvas.SetLeft(_rectangle, _photo.Center.X - Width / 2);
+                System.Windows.Controls.Canvas.SetTop(_rectangle, _photo.Center.Y - Height / 2);
             });
         }
     }
