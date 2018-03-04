@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A6E54DF0-8BF2-4E61-8441-C77C847A8470}</ProjectGuid>
+    <ProjectGuid>{62010355-82E7-4B8D-B766-1FF00D955654}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NationalityGame.Mechanics</RootNamespace>
-    <AssemblyName>NationalityGame.Mechanics</AssemblyName>
+    <RootNamespace>NationalityGame.Presentation</RootNamespace>
+    <AssemblyName>NationalityGame.Presentation</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -38,17 +38,12 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Domain\Bucket.cs" />
-    <Compile Include="Configuration\GameSettings.cs" />
-    <Compile Include="Configuration\PhotoSettings.cs" />
-    <Compile Include="Game.cs" />
-    <Compile Include="Domain\Photo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Domain\GameObject.cs" />
+    <Compile Include="Views\IBucketView.cs" />
+    <Compile Include="Views\IGameResultView.cs" />
+    <Compile Include="Views\IPhotoView.cs" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -6,10 +6,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using NationalityGame.Mechanics;
+using NationalityGame.Mechanics.Domain;
+using NationalityGame.Presentation.Views;
 
 namespace NationalityGame.App.Rendering.Canvas
 {
-    public class PhotoView : IView
+    public class PhotoView : IPhotoView
     {
         private readonly Game _game;
         private readonly System.Windows.Controls.Canvas _canvas;
@@ -84,13 +86,27 @@ namespace NationalityGame.App.Rendering.Canvas
 
         public void Render()
         {
-            if (_settingOpacity)
-            {
-                _rectangle.Opacity -= _opacityStep;
-            }
+            //if (_settingOpacity)
+            //{
+            //    _rectangle.Opacity -= _opacityStep;
+            //}
 
-            System.Windows.Controls.Canvas.SetLeft(_rectangle, _photo.Center.X - _photo.Width / 2);
-            System.Windows.Controls.Canvas.SetTop(_rectangle, _photo.Center.Y - _photo.Height / 2);
+            //System.Windows.Controls.Canvas.SetLeft(_rectangle, _photo.Center.X - _photo.Width / 2);
+            //System.Windows.Controls.Canvas.SetTop(_rectangle, _photo.Center.Y - _photo.Height / 2);
+        }
+
+        public void Update()
+        {
+            UiThread.Dispatch(() =>
+            {
+                if (_settingOpacity)
+                {
+                    _rectangle.Opacity -= _opacityStep;
+                }
+
+                System.Windows.Controls.Canvas.SetLeft(_rectangle, _photo.Center.X - _photo.Width / 2);
+                System.Windows.Controls.Canvas.SetTop(_rectangle, _photo.Center.Y - _photo.Height / 2);
+            });
         }
     }
 }

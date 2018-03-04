@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows;
-using NationalityGame.Mechanics.Configuration;
+using NationalityGame.Mechanics.Domain;
 
 namespace NationalityGame.Mechanics
 {
@@ -14,7 +13,6 @@ namespace NationalityGame.Mechanics
         private readonly double _boardWidth;
 
         private readonly double _boardHeight;
-        private readonly GameSettings _settings;
 
         private double _velocity;
 
@@ -34,7 +32,9 @@ namespace NationalityGame.Mechanics
 
         public event Action<int> ScoreChanged;
 
-        public event Action<int> RoundFinished; 
+        public event Action<int> RoundFinished;
+
+        public event Action TickProcessed;
 
         private GameState _state;
 
@@ -46,12 +46,10 @@ namespace NationalityGame.Mechanics
 
         public Game(
             double boardWidth,
-            double boardHeight,
-            GameSettings settings)
+            double boardHeight)
         {
             _boardWidth = boardWidth;
             _boardHeight = boardHeight;
-            _settings = settings;
 
             _buckets.Add(new Bucket("Japaneese", new Point(0, 0), 150, 150));
             _buckets.Add(new Bucket("Chinese", new Point(_boardWidth - 150, 0), 150, 150));
@@ -90,6 +88,8 @@ namespace NationalityGame.Mechanics
         {
             _roundsLeft = 3;
 
+            _currentScore = 0;
+
             Start();
         }
 
@@ -126,6 +126,8 @@ namespace NationalityGame.Mechanics
                     Start();
                 }
             }
+
+            TickProcessed?.Invoke();
         }
 
         public void ProcessPan(Vector vector)

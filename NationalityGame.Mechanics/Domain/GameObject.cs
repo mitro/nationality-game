@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 
-namespace NationalityGame.Mechanics
+namespace NationalityGame.Mechanics.Domain
 {
     public abstract class GameObject
     {

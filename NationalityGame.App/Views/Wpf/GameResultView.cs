@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using NationalityGame.Presentation.Views;
 
 namespace NationalityGame.App.Rendering.Canvas
 {
-    public class ControlsView : IView, IControlsView
+    public class GameResultView : IGameResultView
     {
         private readonly System.Windows.Controls.Canvas _canvas;
         private readonly Label _label;
         private readonly StackPanel _stackPanel;
 
-        public ControlsView(System.Windows.Controls.Canvas canvas)
+        public GameResultView(System.Windows.Controls.Canvas canvas)
         {
             _canvas = canvas;
 
@@ -49,15 +50,10 @@ namespace NationalityGame.App.Rendering.Canvas
 
         private void ButtonOnClick(object sender, RoutedEventArgs routedEventArgs)
         {
-            NewGameRequested?.Invoke();
+            PlayAgainExecuted?.Invoke();
         }
 
-        public void Render()
-        {
-            
-        }
-
-        public event Action NewGameRequested;
+        public event Action PlayAgainExecuted;
 
         public void Show(int totalScore)
         {

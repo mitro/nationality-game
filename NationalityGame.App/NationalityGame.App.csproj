@@ -58,16 +58,16 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="GameBootstrapper.cs" />
-    <Compile Include="Rendering\Canvas\ControlsView.cs" />
-    <Compile Include="Rendering\Canvas\IControlsView.cs" />
-    <Compile Include="Rendering\IView.cs" />
+    <Compile Include="GamePresenterWpfFactory.cs" />
+    <Compile Include="Views\Wpf\GameResultView.cs" />
+    <Compile Include="Rendering\UiThread.cs" />
     <Compile Include="SettingsReader.cs" />
     <None Include="packages.config" />
     <None Include="settings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <Compile Include="Rendering\Canvas\BucketView.cs" />
-    <Compile Include="Rendering\Canvas\PhotoView.cs" />
+    <Compile Include="Views\Wpf\BucketView.cs" />
+    <Compile Include="Views\Wpf\PhotoView.cs" />
     <Page Include="GameWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -76,7 +76,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Rendering\Canvas\CanvasPresenter.cs" />
+    <Compile Include="Rendering\Canvas\GamePresenter.cs" />
     <Compile Include="GameWindow.xaml.cs">
       <DependentUpon>GameWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -114,6 +114,11 @@
       <Project>{A6E54DF0-8BF2-4E61-8441-C77C847A8470}</Project>
       <Name>NationalityGame.Mechanics</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NationalityGame.Presentation\NationalityGame.Presentation.csproj">
+      <Project>{62010355-82E7-4B8D-B766-1FF00D955654}</Project>
+      <Name>NationalityGame.Presentation</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
