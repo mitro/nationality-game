@@ -32,7 +32,9 @@ namespace NationalityGame.Mechanics
 
         public event Action GameStarted;
 
-        public event Action<int> ScoreChanged; 
+        public event Action<int> ScoreChanged;
+
+        public event Action<int> RoundFinished; 
 
         private GameState _state;
 
@@ -40,7 +42,7 @@ namespace NationalityGame.Mechanics
 
         private int _currentScore;
 
-        private int _roundsLeft = 10;
+        private int _roundsLeft = 3;
 
         public Game(
             double boardWidth,
@@ -63,6 +65,7 @@ namespace NationalityGame.Mechanics
         {
             if (_roundsLeft == 0)
             {
+                RoundFinished?.Invoke(_currentScore);
                 return;
             }
 
@@ -81,6 +84,13 @@ namespace NationalityGame.Mechanics
             GameStarted?.Invoke();
 
             _state = GameState.PhotoFalling;
+        }
+
+        public void StartRound()
+        {
+            _roundsLeft = 3;
+
+            Start();
         }
 
         public void Tick()

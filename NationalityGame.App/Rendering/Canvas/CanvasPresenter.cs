@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using NationalityGame.Mechanics;
 
 namespace NationalityGame.App.Rendering.Canvas
@@ -11,12 +12,20 @@ namespace NationalityGame.App.Rendering.Canvas
 
         private readonly IList<IView> _renderers = new List<IView>();
 
+        private IControlsView _controlsView;
+
         public CanvasPresenter(GameWindow window, Game game)
         {
             _window = window;
             _game = game;
+            _game.RoundFinished += GameOnRoundFinished;
 
             CreateObjectRenderers();
+        }
+
+        private void GameOnRoundFinished(int score)
+        {
+            _controlsView.Show(score);
         }
 
         public void Render()
@@ -42,7 +51,18 @@ namespace NationalityGame.App.Rendering.Canvas
         {
             var renderer = new ControlsView(_window.GameCanvas);
 
+            _controlsView = renderer;
+
+            _controlsView.NewGameRequested += ControlsViewOnNewGameRequested;
+
             _renderers.Add(renderer);
+        }
+
+        private void ControlsViewOnNewGameRequested()
+        {
+            _controlsView.Hide();
+
+            _game.StartRound();
         }
 
         private void CreatePhotoRenderer(Photo photo)

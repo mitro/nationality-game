@@ -59,6 +59,7 @@
     </ApplicationDefinition>
     <Compile Include="GameBootstrapper.cs" />
     <Compile Include="Rendering\Canvas\ControlsView.cs" />
+    <Compile Include="Rendering\Canvas\IControlsView.cs" />
     <Compile Include="Rendering\IView.cs" />
     <Compile Include="SettingsReader.cs" />
     <None Include="packages.config" />
