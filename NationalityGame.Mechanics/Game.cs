@@ -10,9 +10,7 @@ namespace NationalityGame.Mechanics
     // TODO Add "allowMindChanging"
     public class Game
     {
-        private readonly double _boardWidth;
-
-        private readonly double _boardHeight;
+        private readonly Board _board;
 
         private double _velocity;
 
@@ -30,13 +28,9 @@ namespace NationalityGame.Mechanics
 
         public event Action GameStarted;
 
-        public event Action<int> ScoreChanged;
-
         public event Action<int> RoundFinished;
 
         public event Action TickProcessed;
-
-        private GameState _state;
 
         private Bucket _chosenBucket;
 
@@ -44,44 +38,40 @@ namespace NationalityGame.Mechanics
 
         private int _roundsLeft = 3;
 
-        public Game(
-            double boardWidth,
-            double boardHeight)
+        public Game(Board board)
         {
-            _boardWidth = boardWidth;
-            _boardHeight = boardHeight;
+            _board = board;
 
             _buckets.Add(new Bucket("Japaneese", new Point(0, 0), 150, 150));
-            _buckets.Add(new Bucket("Chinese", new Point(_boardWidth - 150, 0), 150, 150));
-            _buckets.Add(new Bucket("Korean", new Point(_boardWidth - 150, _boardHeight - 150), 150, 150));
-            _buckets.Add(new Bucket("Thai", new Point(0, _boardHeight - 150), 150, 150));
-
-            _state = GameState.GameNotStarted;
+            _buckets.Add(new Bucket("Chinese", new Point(_board.Width - 150, 0), 150, 150));
+            _buckets.Add(new Bucket("Korean", new Point(_board.Width - 150, _board.Height - 150), 150, 150));
+            _buckets.Add(new Bucket("Thai", new Point(0, _board.Height - 150), 150, 150));
         }
 
         public void Start()
         {
             if (_roundsLeft == 0)
             {
+                _chosenBucket = null;
+
                 RoundFinished?.Invoke(_currentScore);
+
                 return;
             }
 
             _roundsLeft--;
 
-            Photo = new Photo(new Point(_boardWidth / 2, 0), 150, 150, "Thai");
+            Photo = new Photo(new Point(_board.Width / 2, 0), 150, 150, "Thai");
 
             Photo.SetMovementVector(new Vector(0, 1));
 
-            _velocity = _boardHeight / 3000;
+            _velocity = _board.Height / 3000;
 
             VelocityChanged?.Invoke(_velocity);
 
             _lastTickAt = DateTime.Now;
 
             GameStarted?.Invoke();
-
-            _state = GameState.PhotoFalling;
         }
 
         public void StartRound()
@@ -101,16 +91,13 @@ namespace NationalityGame.Mechanics
 
             _lastTickAt = DateTime.Now;
 
-            if (_state == GameState.PhotoFalling)
+            if (PhotoLeftBoard())
             {
-                if (Photo.Center.Y > _boardHeight)
+                if (_chosenBucket == null)
                 {
                     Start();
                 }
-            }
-            else if (_state == GameState.BucketChosen)
-            {
-                if (Photo.GetVectorTo(_chosenBucket).Length < 5)
+                else if (_chosenBucket != null)
                 {
                     if (Photo.Nationality.Equals(_chosenBucket.Nationality, StringComparison.InvariantCultureIgnoreCase))
                     {
@@ -121,8 +108,6 @@ namespace NationalityGame.Mechanics
                         _currentScore -= 5;
                     }
 
-                    ScoreChanged?.Invoke(_currentScore);
-
                     Start();
                 }
             }
@@ -130,9 +115,14 @@ namespace NationalityGame.Mechanics
             TickProcessed?.Invoke();
         }
 
+        private bool PhotoLeftBoard()
+        {
+            return !_board.ObjectIsInside(Photo);
+        }
+
         public void ProcessPan(Vector vector)
         {
-            if (_state != GameState.PhotoFalling)
+            if (_chosenBucket != null)
             {
                 return;
             }
@@ -155,21 +145,8 @@ namespace NationalityGame.Mechanics
 
             _chosenBucket = bucketPannedTo;
 
-            _state = GameState.BucketChosen;
-
             Photo.SetMovementVector(Photo.GetVectorTo(bucketPannedTo));
             PhotoDirectedToBucket?.Invoke(bucketPannedTo);
         }
-    }
-
-    public enum GameState
-    {
-        Undefined,
-
-        GameNotStarted,
-
-        PhotoFalling,
-
-        BucketChosen
     }
 }

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Timers;
 using System.Windows;
 using NationalityGame.Mechanics;
 using NationalityGame.Presentation.Interactivity;
@@ -79,6 +77,8 @@ namespace NationalityGame.Presentation
 
         private void GameOnRoundFinished(int score)
         {
+            _ticker.Stop();
+
             _gameResultView.Show(score);
         }
 
@@ -92,6 +92,8 @@ namespace NationalityGame.Presentation
             _gameResultView.Hide();
 
             _game.StartRound();
+
+            _ticker.Start();
         }
 
         private void TickerOnTicked()

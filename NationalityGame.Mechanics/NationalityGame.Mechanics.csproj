@@ -41,6 +41,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Domain\Board.cs" />
     <Compile Include="Domain\Bucket.cs" />
     <Compile Include="Configuration\GameSettings.cs" />
     <Compile Include="Configuration\PhotoSettings.cs" />
