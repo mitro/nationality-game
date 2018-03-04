@@ -4,7 +4,7 @@ namespace NationalityGame.Presentation.Interactivity
 {
     public interface ITicker
     {
-        event Action Ticked;
+        event Action<double> Ticked;
 
         void Start();
 

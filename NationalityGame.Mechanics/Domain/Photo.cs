@@ -10,5 +10,10 @@ namespace NationalityGame.Mechanics.Domain
         {
             Nationality = nationality;
         }
+
+        public Photo Clone()
+        {
+            return new Photo(Center, Nationality);
+        }
     }
 }

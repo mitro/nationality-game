@@ -15,10 +15,10 @@
         public bool ObjectIsInside(GameObject gameObject)
         {
             return
-                gameObject.Center.X > 0 &&
-                gameObject.Center.X < Width &&
-                gameObject.Center.Y > 0 &&
-                gameObject.Center.Y < Height;
+                gameObject.Center.X >= 0 &&
+                gameObject.Center.X <= Width &&
+                gameObject.Center.Y >= 0 &&
+                gameObject.Center.Y <= Height;
         }
     }
 }

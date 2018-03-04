@@ -24,7 +24,13 @@ namespace NationalityGame.App.Bootstrapping
                 new Bucket("Thai", new Point(0, board.Height - 150), 150, 150)
             };
 
-            _game = new Game(board, buckets);
+            var photos = new List<Photo>
+            {
+                new Photo(new Point(board.Width / 2, 0), "Thai"),
+                new Photo(new Point(board.Width / 2, 0), "Thai"),
+            };
+
+            _game = new Game(board, buckets, photos);
 
             var presenterFactory = new GamePresenterWpfFactory();
 

@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Diagnostics;
+using System.Windows;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using NationalityGame.App.Utils;
-using NationalityGame.Mechanics;
 using NationalityGame.Mechanics.Domain;
 using NationalityGame.Presentation.Views;
 
@@ -14,8 +14,7 @@ namespace NationalityGame.App.Views.Wpf
     {
         private const double Width = 150;
         private const double Height = 150;
-
-        private readonly Game _game;
+        private const string OpacityProperty = "Opacity";
 
         private readonly System.Windows.Controls.Canvas _canvas;
 
@@ -23,34 +22,21 @@ namespace NationalityGame.App.Views.Wpf
 
         private Rectangle _rectangle;
 
-        private double _velocity;
-
-        private bool _settingOpacity;
-
-        private double _opacityStep;
-
-        public PhotoView(Game game, System.Windows.Controls.Canvas canvas)
+        public PhotoView(System.Windows.Controls.Canvas canvas)
         {
-            _game = game;
             _canvas = canvas;
-
-            game.VelocityChanged += GameOnVelocityChanged;
-            game.PhotoDirectedToBucket += GameOnPhotoDirectedToBucket;
-            game.GameStarted += GameOnGameStarted;
         }
 
-        private void GameOnGameStarted()
+        public void Start(Photo photo)
         {
             UiThread.Dispatch(() =>
             {
-                _settingOpacity = false;
-
                 if (_rectangle != null)
                 {
                     _canvas.Children.Remove(_rectangle);
                 }
 
-                _photo = _game.Photo;
+                _photo = photo;
 
                 ImageBrush image = new ImageBrush
                 {
@@ -71,33 +57,48 @@ namespace NationalityGame.App.Views.Wpf
 
                 _canvas.Children.Add(_rectangle);
             });
-        }
 
-        private void GameOnVelocityChanged(double velocity)
-        {
-            _velocity = velocity;
-        }
-
-        private void GameOnPhotoDirectedToBucket(Bucket bucket)
-        {
-            _settingOpacity = true;
-
-            _opacityStep = 30.0 / (_photo.GetVectorTo(bucket).Length / _velocity);
-
-            Debug.WriteLine(_opacityStep);
+            Update();
         }
 
         public void Update()
         {
             UiThread.Dispatch(() =>
             {
-                if (_settingOpacity)
-                {
-                    _rectangle.Opacity -= _opacityStep;
-                }
-
                 System.Windows.Controls.Canvas.SetLeft(_rectangle, _photo.Center.X - Width / 2);
                 System.Windows.Controls.Canvas.SetTop(_rectangle, _photo.Center.Y - Height / 2);
+            });
+        }
+
+        public void Hide()
+        {
+            UiThread.Dispatch(() =>
+            {
+                _rectangle.Visibility = Visibility.Hidden;
+            });
+        }
+
+        public void StartFadingOut(double durationInMs)
+        {
+            UiThread.Dispatch(() =>
+            {
+                var animation = new DoubleAnimation
+                {
+                    From = 1.0,
+                    To = 0.0,
+                    FillBehavior = FillBehavior.Stop,
+                    BeginTime = TimeSpan.FromSeconds(0),
+                    Duration = new Duration(TimeSpan.FromMilliseconds(durationInMs))
+                };
+
+                var storyboard = new Storyboard();
+                storyboard.Children.Add(animation);
+
+                Storyboard.SetTarget(animation, _rectangle);
+                Storyboard.SetTargetProperty(animation, new PropertyPath(OpacityProperty));
+
+                storyboard.Completed += delegate { _rectangle.Visibility = Visibility.Hidden; };
+                storyboard.Begin();
             });
         }
     }

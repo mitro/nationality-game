@@ -10,7 +10,7 @@ namespace NationalityGame.App.Bootstrapping
     {
         public GamePresenter Create(Game game, GameWindow window)
         {
-            var photoView = new PhotoView(game, window.GameCanvas);
+            var photoView = new PhotoView(window.GameCanvas);
 
             var gameResultView = new GameResultView(window.GameCanvas);
 

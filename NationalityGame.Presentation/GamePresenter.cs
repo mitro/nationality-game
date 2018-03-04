@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 using NationalityGame.Mechanics;
+using NationalityGame.Mechanics.Domain;
 using NationalityGame.Presentation.Interactivity;
 using NationalityGame.Presentation.Views;
 
@@ -32,6 +33,8 @@ namespace NationalityGame.Presentation
             _game = game;
             _game.TickProcessed += GameOnTickProcessed;
             _game.RoundFinished += GameOnRoundFinished;
+            _game.NextPhotoSent += GameOnNextPhotoSent;
+            _game.BucketSelected += GameOnBucketSelected;
 
             _photoView = photoView;
 
@@ -46,6 +49,16 @@ namespace NationalityGame.Presentation
             userInteractionRecognizer.PanRecognized += UserInteractionRecognizerOnPanRecognized;
         }
 
+        private void GameOnBucketSelected(Bucket bucket, double approachingTimeInMs)
+        {
+            _photoView.StartFadingOut(approachingTimeInMs);
+        }
+
+        private void GameOnNextPhotoSent(Photo photo)
+        {
+            _photoView.Start(photo);
+        }
+
         public void Start()
         {
             AssertNotStartedYet();
@@ -55,7 +68,7 @@ namespace NationalityGame.Presentation
                 bucketView.Show();
             }
 
-            _game.Start();
+            _game.StartRound();
 
             _ticker.Start();
         }
@@ -79,6 +92,8 @@ namespace NationalityGame.Presentation
         {
             _ticker.Stop();
 
+            _photoView.Hide();
+
             _gameResultView.Show(score);
         }
 
@@ -96,9 +111,9 @@ namespace NationalityGame.Presentation
             _ticker.Start();
         }
 
-        private void TickerOnTicked()
+        private void TickerOnTicked(double msSinceLastTick)
         {
-            _game.ProcessTick();
+            _game.ProcessTick(msSinceLastTick);
         }
     }
 }

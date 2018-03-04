@@ -11,7 +11,9 @@ namespace NationalityGame.App.Interactivity.Wpf
 
         private readonly Timer _timer;
 
-        public event Action Ticked;
+        private DateTime _lastTickAt;
+
+        public event Action<double> Ticked;
 
         public Ticker()
         {
@@ -26,6 +28,8 @@ namespace NationalityGame.App.Interactivity.Wpf
 
         public void Start()
         {
+            _lastTickAt = DateTime.Now;
+
             _timer.Start();
         }
 
@@ -46,7 +50,11 @@ namespace NationalityGame.App.Interactivity.Wpf
 
         private void BackgroundWorkerOnDoWork(object sender, DoWorkEventArgs doWorkEventArgs)
         {
-            Ticked?.Invoke();
+            var msSinceLastTick = (DateTime.Now - _lastTickAt).TotalMilliseconds;
+
+            Ticked?.Invoke(msSinceLastTick);
+
+            _lastTickAt = DateTime.Now;
         }
     }
 }
