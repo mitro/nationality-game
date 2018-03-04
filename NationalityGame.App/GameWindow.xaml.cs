@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using NationalityGame.App.Bootstrapping;
 
 namespace NationalityGame.App
 {

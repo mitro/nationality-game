@@ -38,12 +38,21 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GamePresenter.cs" />
+    <Compile Include="Interacting\IUserInteractionRecognizer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\IBucketView.cs" />
     <Compile Include="Views\IGameResultView.cs" />
     <Compile Include="Views\IPhotoView.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NationalityGame.Mechanics\NationalityGame.Mechanics.csproj">
+      <Project>{A6E54DF0-8BF2-4E61-8441-C77C847A8470}</Project>
+      <Name>NationalityGame.Mechanics</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

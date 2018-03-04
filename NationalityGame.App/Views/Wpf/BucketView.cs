@@ -1,13 +1,11 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using NationalityGame.Mechanics;
 using NationalityGame.Mechanics.Domain;
 using NationalityGame.Presentation.Views;
 
-namespace NationalityGame.App.Rendering.Canvas
+namespace NationalityGame.App.Views.Wpf
 {
     class BucketView : IBucketView
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 
-namespace NationalityGame.App.Rendering
+namespace NationalityGame.App.Utils
 {
     public static class UiThread
     {

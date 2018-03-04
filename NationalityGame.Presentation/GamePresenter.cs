@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Windows;
 using NationalityGame.Mechanics;
+using NationalityGame.Presentation.Interacting;
 using NationalityGame.Presentation.Views;
 
-namespace NationalityGame.App.Rendering.Canvas
+namespace NationalityGame.Presentation
 {
     public class GamePresenter
     {
@@ -16,23 +18,26 @@ namespace NationalityGame.App.Rendering.Canvas
 
         public GamePresenter(
             Game game,
+            IUserInteractionRecognizer userInteractionRecognizer,
             IPhotoView photoView,
             IGameResultView gameResultView,
             IEnumerable<IBucketView> bucketViews)
         {
             _game = game;
-
-            _photoView = photoView;
-            _gameResultView = gameResultView;
-            _bucketViews = bucketViews;
-
             _game.TickProcessed += GameOnTickProcessed;
             _game.RoundFinished += GameOnRoundFinished;
 
+            userInteractionRecognizer.PanRecognized += UserInteractionRecognizerOnPanRecognized;
+
+            _photoView = photoView;
+
+            _gameResultView = gameResultView;
             _gameResultView.PlayAgainExecuted += GameResultViewOnNewGameRequested;
+
+            _bucketViews = bucketViews;
         }
 
-        public void Prepare()
+        public void Start()
         {
             foreach (var bucketView in _bucketViews)
             {
@@ -48,6 +53,11 @@ namespace NationalityGame.App.Rendering.Canvas
         private void GameOnRoundFinished(int score)
         {
             _gameResultView.Show(score);
+        }
+
+        private void UserInteractionRecognizerOnPanRecognized(Vector vector)
+        {
+            _game.ProcessPan(vector);
         }
 
         private void GameResultViewOnNewGameRequested()

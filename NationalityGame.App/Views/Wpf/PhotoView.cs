@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using NationalityGame.App.Utils;
 using NationalityGame.Mechanics;
 using NationalityGame.Mechanics.Domain;
 using NationalityGame.Presentation.Views;
 
-namespace NationalityGame.App.Rendering.Canvas
+namespace NationalityGame.App.Views.Wpf
 {
     public class PhotoView : IPhotoView
     {
@@ -38,7 +38,7 @@ namespace NationalityGame.App.Rendering.Canvas
 
         private void GameOnGameStarted()
         {
-            Application.Current.Dispatcher.Invoke(() =>
+            UiThread.Dispatch(() =>
             {
                 _settingOpacity = false;
 

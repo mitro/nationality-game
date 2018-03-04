@@ -57,10 +57,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="GameBootstrapper.cs" />
-    <Compile Include="GamePresenterWpfFactory.cs" />
+    <Compile Include="Bootstrapping\GameBootstrapper.cs" />
+    <Compile Include="Bootstrapping\GamePresenterWpfFactory.cs" />
     <Compile Include="Views\Wpf\GameResultView.cs" />
-    <Compile Include="Rendering\UiThread.cs" />
+    <Compile Include="Utils\UiThread.cs" />
     <Compile Include="SettingsReader.cs" />
     <None Include="packages.config" />
     <None Include="settings.json">
@@ -76,14 +76,13 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Rendering\Canvas\GamePresenter.cs" />
     <Compile Include="GameWindow.xaml.cs">
       <DependentUpon>GameWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PanRecognizer.cs" />
+    <Compile Include="Interacting\Wpf\UserInteractionRecognizer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

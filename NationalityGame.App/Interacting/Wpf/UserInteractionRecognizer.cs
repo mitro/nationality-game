@@ -2,10 +2,11 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using NationalityGame.Presentation.Interacting;
 
-namespace NationalityGame.App
+namespace NationalityGame.App.Interacting.Wpf
 {
-    public class PanRecognizer
+    public class UserInteractionRecognizer : IUserInteractionRecognizer
     {
         private readonly Canvas _canvas;
 
@@ -13,7 +14,7 @@ namespace NationalityGame.App
 
         public event Action<Vector> PanRecognized;
 
-        public PanRecognizer(Canvas canvas)
+        public UserInteractionRecognizer(Canvas canvas)
         {
             _canvas = canvas;
 
@@ -35,7 +36,8 @@ namespace NationalityGame.App
                 endPosition.X - _startPosition.X,
                 endPosition.Y - _startPosition.Y);
 
-            if (vector1.Length >= 10)
+            // TODO Move to settings
+            if (vector1.Length >= 20)
             {
                 PanRecognized?.Invoke(vector1);
             }

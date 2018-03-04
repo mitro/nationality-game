@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using NationalityGame.Presentation.Views;
 
-namespace NationalityGame.App.Rendering.Canvas
+namespace NationalityGame.App.Views.Wpf
 {
     public class GameResultView : IGameResultView
     {
