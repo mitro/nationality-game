@@ -1,13 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Timers;
 using System.Windows;
 using NationalityGame.Mechanics;
-using NationalityGame.Presentation.Interacting;
+using NationalityGame.Presentation.Interactivity;
 using NationalityGame.Presentation.Views;
 
 namespace NationalityGame.Presentation
 {
     public class GamePresenter
     {
+        private bool _isStarted;
+
         private readonly Game _game;
 
         private readonly IPhotoView _photoView;
@@ -16,18 +21,19 @@ namespace NationalityGame.Presentation
 
         private readonly IEnumerable<IBucketView> _bucketViews;
 
+        private readonly ITicker _ticker;
+
         public GamePresenter(
             Game game,
-            IUserInteractionRecognizer userInteractionRecognizer,
             IPhotoView photoView,
             IGameResultView gameResultView,
-            IEnumerable<IBucketView> bucketViews)
+            IEnumerable<IBucketView> bucketViews,
+            ITicker ticker,
+            IUserInteractionRecognizer userInteractionRecognizer)
         {
             _game = game;
             _game.TickProcessed += GameOnTickProcessed;
             _game.RoundFinished += GameOnRoundFinished;
-
-            userInteractionRecognizer.PanRecognized += UserInteractionRecognizerOnPanRecognized;
 
             _photoView = photoView;
 
@@ -35,14 +41,35 @@ namespace NationalityGame.Presentation
             _gameResultView.PlayAgainExecuted += GameResultViewOnNewGameRequested;
 
             _bucketViews = bucketViews;
+
+            _ticker = ticker;
+            _ticker.Ticked += TickerOnTicked;
+
+            userInteractionRecognizer.PanRecognized += UserInteractionRecognizerOnPanRecognized;
         }
 
         public void Start()
         {
+            AssertNotStartedYet();
+
             foreach (var bucketView in _bucketViews)
             {
                 bucketView.Show();
             }
+
+            _game.Start();
+
+            _ticker.Start();
+        }
+
+        private void AssertNotStartedYet()
+        {
+            if (_isStarted)
+            {
+                throw new InvalidOperationException($"{nameof(GamePresenter)} is already started. Unable to proceed. Check the code.");
+            }
+
+            _isStarted = true;
         }
 
         private void GameOnTickProcessed()
@@ -65,6 +92,11 @@ namespace NationalityGame.Presentation
             _gameResultView.Hide();
 
             _game.StartRound();
+        }
+
+        private void TickerOnTicked()
+        {
+            _game.ProcessTick();
         }
     }
 }

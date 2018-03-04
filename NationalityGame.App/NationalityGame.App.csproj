@@ -59,6 +59,7 @@
     </ApplicationDefinition>
     <Compile Include="Bootstrapping\GameBootstrapper.cs" />
     <Compile Include="Bootstrapping\GamePresenterWpfFactory.cs" />
+    <Compile Include="Interactivity\Wpf\Ticker.cs" />
     <Compile Include="Views\Wpf\GameResultView.cs" />
     <Compile Include="Utils\UiThread.cs" />
     <Compile Include="SettingsReader.cs" />
@@ -82,7 +83,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interacting\Wpf\UserInteractionRecognizer.cs" />
+    <Compile Include="Interactivity\Wpf\UserInteractionRecognizer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

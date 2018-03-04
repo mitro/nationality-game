@@ -42,7 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GamePresenter.cs" />
-    <Compile Include="Interacting\IUserInteractionRecognizer.cs" />
+    <Compile Include="Interactivity\ITicker.cs" />
+    <Compile Include="Interactivity\IUserInteractionRecognizer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\IBucketView.cs" />
     <Compile Include="Views\IGameResultView.cs" />

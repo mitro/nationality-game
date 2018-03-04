@@ -2,9 +2,9 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using NationalityGame.Presentation.Interacting;
+using NationalityGame.Presentation.Interactivity;
 
-namespace NationalityGame.App.Interacting.Wpf
+namespace NationalityGame.App.Interactivity.Wpf
 {
     public class UserInteractionRecognizer : IUserInteractionRecognizer
     {

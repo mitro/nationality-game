@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using NationalityGame.App.Interacting.Wpf;
+using NationalityGame.App.Interactivity.Wpf;
 using NationalityGame.App.Views.Wpf;
 using NationalityGame.Mechanics;
 using NationalityGame.Presentation;
@@ -10,8 +10,6 @@ namespace NationalityGame.App.Bootstrapping
     {
         public GamePresenter Create(Game game, GameWindow window)
         {
-            var recognizer = new UserInteractionRecognizer(window.GameCanvas);
-
             var photoView = new PhotoView(game, window.GameCanvas);
 
             var gameResultView = new GameResultView(window.GameCanvas);
@@ -20,12 +18,17 @@ namespace NationalityGame.App.Bootstrapping
                 .Select(bucket => new BucketView(bucket, window.GameCanvas))
                 .ToList();
 
+            var recognizer = new UserInteractionRecognizer(window.GameCanvas);
+
+            var ticker = new Ticker();
+
             return new GamePresenter(
                 game,
-                recognizer,
                 photoView,
                 gameResultView,
-                bucketViews);
+                bucketViews,
+                ticker,
+                recognizer);
         }
     }
 }

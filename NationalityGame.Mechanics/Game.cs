@@ -93,7 +93,7 @@ namespace NationalityGame.Mechanics
             Start();
         }
 
-        public void Tick()
+        public void ProcessTick()
         {
             var msElapsed = (DateTime.Now - _lastTickAt).TotalMilliseconds;
 
