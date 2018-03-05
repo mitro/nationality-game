@@ -90,7 +90,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interactivity\Wpf\UserInteractionRecognizer.cs" />
+    <Compile Include="Interactivity\Wpf\GestureRecognizer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

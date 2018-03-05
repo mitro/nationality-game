@@ -8,7 +8,7 @@ using NationalityGame.Presentation.Interactivity;
 
 namespace NationalityGame.App.Interactivity.Wpf
 {
-    public class UserInteractionRecognizer : IUserInteractionRecognizer
+    public class GestureRecognizer : IGestureRecognizer
     {
         private readonly Canvas _canvas;
 
@@ -16,7 +16,7 @@ namespace NationalityGame.App.Interactivity.Wpf
 
         private bool _gestureInProgress;
 
-        public UserInteractionRecognizer(Canvas canvas)
+        public GestureRecognizer(Canvas canvas)
         {
             _canvas = canvas;
 

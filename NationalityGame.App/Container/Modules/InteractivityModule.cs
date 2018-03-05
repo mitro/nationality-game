@@ -13,9 +13,9 @@ namespace NationalityGame.App.Container.Modules
             {
                 var window = c.Resolve<GameWindow>();
 
-                return new UserInteractionRecognizer(window.GameCanvas);
+                return new GestureRecognizer(window.GameCanvas);
             })
-                .As<IUserInteractionRecognizer>();
+                .As<IGestureRecognizer>();
 
             builder.Register(c =>
             {

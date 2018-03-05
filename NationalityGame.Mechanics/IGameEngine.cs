@@ -12,7 +12,7 @@ namespace NationalityGame.Mechanics
 
         event Action<Photo> NextPhotoRun;
 
-        event Action<Bucket, double> BucketChosen;
+        event Action<double> BucketChosen;
 
         void StartNewRound();
 

@@ -12,7 +12,7 @@ namespace NationalityGame.Presentation
     {
         private bool _isStarted;
 
-        private readonly IGameEngine _game;
+        private readonly IGameEngine _gameEngine;
 
         private readonly IPhotoView _photoView;
 
@@ -22,45 +22,52 @@ namespace NationalityGame.Presentation
 
         private readonly ITicker _ticker;
 
+        private readonly IGestureRecognizer _gestureRecognizer;
+
         public GamePresenter(
-            IGameEngine game,
+            IGameEngine gameEngine,
             IPhotoView photoView,
             IGameResultView gameResultView,
             IEnumerable<IBucketView> bucketViews,
             ITicker ticker,
-            IUserInteractionRecognizer userInteractionRecognizer)
+            IGestureRecognizer gestureRecognizer)
         {
-            _game = game;
-            _game.TickProcessed += GameOnTickProcessed;
-            _game.RoundFinished += GameOnRoundFinished;
-            _game.NextPhotoRun += GameOnNextPhotoRun;
-            _game.BucketChosen += GameOnBucketChosen;
-
+            _gameEngine = gameEngine;
             _photoView = photoView;
-
             _gameResultView = gameResultView;
-            _gameResultView.PlayAgainRequested += GameResultViewOnPlayAgainRequested;
-
             _bucketViews = bucketViews;
-
             _ticker = ticker;
-            _ticker.Ticked += TickerOnTicked;
-
-            userInteractionRecognizer.PanRecognized += UserInteractionRecognizerOnPanRecognized;
+            _gestureRecognizer = gestureRecognizer;
         }
 
         public void Start()
         {
             AssertNotStartedYet();
 
+            SubscribeToEvents();
+
             foreach (var bucketView in _bucketViews)
             {
                 bucketView.Show();
             }
 
-            _game.StartNewRound();
+            _gameEngine.StartNewRound();
 
             _ticker.Start();
+        }
+
+        private void SubscribeToEvents()
+        {
+            _gameEngine.TickProcessed += GameEngineOnTickProcessed;
+            _gameEngine.RoundFinished += GameEngineOnRoundFinished;
+            _gameEngine.NextPhotoRun += GameEngineOnNextPhotoRun;
+            _gameEngine.BucketChosen += GameEngineOnBucketChosen;
+
+            _gameResultView.PlayAgainRequested += GameResultViewOnPlayAgainRequested;
+
+            _ticker.Ticked += TickerOnTicked;
+
+            _gestureRecognizer.PanRecognized += GestureRecognizerOnPanRecognized;
         }
 
         private void AssertNotStartedYet()
@@ -73,12 +80,31 @@ namespace NationalityGame.Presentation
             _isStarted = true;
         }
 
-        private void GameOnTickProcessed()
+        private void GestureRecognizerOnPanRecognized(Vector vector)
+        {
+            _gameEngine.ProcessPan(vector);
+        }
+
+        private void TickerOnTicked(double msSinceLastTick)
+        {
+            _gameEngine.ProcessTick(msSinceLastTick);
+        }
+
+        private void GameResultViewOnPlayAgainRequested()
+        {
+            _gameResultView.Hide();
+
+            _gameEngine.StartNewRound();
+
+            _ticker.Start();
+        }
+
+        private void GameEngineOnTickProcessed()
         {
             _photoView.Refresh();
         }
 
-        private void GameOnRoundFinished(int score)
+        private void GameEngineOnRoundFinished(int score)
         {
             _ticker.Stop();
 
@@ -87,31 +113,12 @@ namespace NationalityGame.Presentation
             _gameResultView.Show(score);
         }
 
-        private void UserInteractionRecognizerOnPanRecognized(Vector vector)
-        {
-            _game.ProcessPan(vector);
-        }
-
-        private void GameResultViewOnPlayAgainRequested()
-        {
-            _gameResultView.Hide();
-
-            _game.StartNewRound();
-
-            _ticker.Start();
-        }
-
-        private void TickerOnTicked(double msSinceLastTick)
-        {
-            _game.ProcessTick(msSinceLastTick);
-        }
-
-        private void GameOnBucketChosen(Bucket bucket, double timeToReachInMs)
+        private void GameEngineOnBucketChosen(double timeToReachInMs)
         {
             _photoView.StartFadingOut(timeToReachInMs);
         }
 
-        private void GameOnNextPhotoRun(Photo photo)
+        private void GameEngineOnNextPhotoRun(Photo photo)
         {
             _photoView.Show(photo);
         }

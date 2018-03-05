@@ -3,7 +3,7 @@ using System.Windows;
 
 namespace NationalityGame.Presentation.Interactivity
 {
-    public interface IUserInteractionRecognizer
+    public interface IGestureRecognizer
     {
         event Action<Vector> PanRecognized;
     }

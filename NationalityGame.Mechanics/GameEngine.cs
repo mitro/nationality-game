@@ -39,7 +39,7 @@ namespace NationalityGame.Mechanics
 
         public event Action<Photo> NextPhotoRun;
 
-        public event Action<Bucket, double> BucketChosen;
+        public event Action<double> BucketChosen;
 
         public void StartNewRound()
         {
@@ -85,7 +85,7 @@ namespace NationalityGame.Mechanics
 
             _runningPhoto.SetMovementVector(_runningPhoto.GetVectorTo(chosenBucket));
 
-            BucketChosen?.Invoke(chosenBucket, CalcTimeToReach(chosenBucket));
+            BucketChosen?.Invoke(CalcTimeToReach(chosenBucket));
         }
 
         private bool BucketAlreadyChosen()
