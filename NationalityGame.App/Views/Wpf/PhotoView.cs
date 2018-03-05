@@ -40,7 +40,7 @@ namespace NationalityGame.App.Views.Wpf
 
                 ImageBrush image = new ImageBrush
                 {
-                    ImageSource = new BitmapImage(new Uri("d:\\face1.jpg")),
+                    ImageSource = new BitmapImage(new Uri(_photo.ImagePath, UriKind.Relative)),
                     Stretch = Stretch.Uniform,
                     AlignmentX = AlignmentX.Center,
                     AlignmentY = AlignmentY.Center,

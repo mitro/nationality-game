@@ -6,14 +6,17 @@ namespace NationalityGame.Mechanics.Domain
     {
         public string Nationality { get; }
 
-        public Photo(Point center, string nationality) : base(center)
+        public string ImagePath { get; }
+
+        public Photo(Point center, string nationality, string imagePath) : base(center)
         {
             Nationality = nationality;
+            ImagePath = imagePath;
         }
 
         public Photo Clone()
         {
-            return new Photo(Center, Nationality);
+            return new Photo(Center, Nationality, ImagePath);
         }
     }
 }

@@ -3,16 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using NationalityGame.Mechanics.Domain;
+using NationalityGame.Mechanics.Utils;
 
 namespace NationalityGame.Mechanics
 {
-    // TODO Make full screen
-    // TODO Add "allowMindChanging"
     public class Game
     {
-        private readonly Board _board;
+        private readonly Settings _settings;
 
-        private readonly double _velocityInPxPerMs;
+        private readonly Board _board;
 
         public IEnumerable<Bucket> Buckets { get; }
 
@@ -27,12 +26,14 @@ namespace NationalityGame.Mechanics
         private Photo _runningPhoto;
 
         public Game(
+            Settings settings,
             Board board,
             IEnumerable<Bucket> buckets,
             IEnumerable<Photo> photos,
-            Score score,
-            double velocityInPxPerMs)
+            Score score)
         {
+            _settings = settings;
+
             _board = board;
 
             Buckets = buckets;
@@ -40,8 +41,6 @@ namespace NationalityGame.Mechanics
             _photos = photos;
 
             _score = score;
-
-            _velocityInPxPerMs = velocityInPxPerMs;
         }
 
         public event Action<int> RoundFinished;
@@ -56,14 +55,14 @@ namespace NationalityGame.Mechanics
         {
             _score.Reset();
 
-            _roundPhotos = new Queue<Photo>(_photos.Select(p => p.Clone()));
+            _roundPhotos = GetRoundPhotos();
 
             RunNextPhoto();
         }
 
         public void ProcessTick(double msSinceLastTick)
         {
-            _runningPhoto.Move(msSinceLastTick * _velocityInPxPerMs);
+            _runningPhoto.Move(msSinceLastTick * _settings.VelocityInPxPerMs);
 
             if (_board.CheckPhotoLeft(_runningPhoto))
             {
@@ -101,7 +100,7 @@ namespace NationalityGame.Mechanics
 
         private double CalcTimeToReach(Bucket chosenBucket)
         {
-            return _runningPhoto.GetVectorTo(chosenBucket).Length / _velocityInPxPerMs;
+            return _runningPhoto.GetVectorTo(chosenBucket).Length / _settings.VelocityInPxPerMs;
         }
 
         private Bucket GetBucketPannedTo(Vector vector)
@@ -139,6 +138,31 @@ namespace NationalityGame.Mechanics
         private bool NoPhotosLeft()
         {
             return !_roundPhotos.Any();
+        }
+
+        private Queue<Photo> GetRoundPhotos()
+        {
+            var clonedPhotos = _photos.Select(p => p.Clone());
+
+            if (_settings.ShufflePhotos)
+            {
+                clonedPhotos = clonedPhotos.Shuffle();
+            }
+
+            return new Queue<Photo>(clonedPhotos);
+        }
+
+        public class Settings
+        {
+            public bool ShufflePhotos { get; }
+
+            public double VelocityInPxPerMs { get; }
+
+            public Settings(bool shufflePhotos, double velocityInPxPerMs)
+            {
+                ShufflePhotos = shufflePhotos;
+                VelocityInPxPerMs = velocityInPxPerMs;
+            }
         }
     }
 }

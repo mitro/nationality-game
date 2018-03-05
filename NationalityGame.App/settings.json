@@ -1,32 +1,68 @@
 ﻿{
-    "photos": [
-        {
-            "Nationality": "Thai",
-            "ImagePath": "d:\\face1.jpg"
-        },
-        {
-            "Nationality": "Korean",
-            "ImagePath": "d:\\face1.jpg"
-        },
-        {
-            "Nationality": "Thai",
-            "ImagePath": "d:\\face1.jpg"
-        },
-        {
-            "Nationality": "Korean",
-            "ImagePath": "d:\\face1.jpg"
-        },
-        {
-            "Nationality": "Thai",
-            "ImagePath": "d:\\face1.jpg"
-        },
-        {
-            "Nationality": "Korean",
-            "ImagePath": "d:\\face1.jpg"
-        },
-        {
-            "Nationality": "Thai",
-            "ImagePath": "d:\\face1.jpg"
-        }
-    ] 
+  "buckets": {
+    "topLeft": {
+      "nationality": "Japanese"
+    },
+    "topRight": {
+      "nationality": "Chinese"
+    },
+    "bottomRight": {
+      "nationality": "Korean"
+    },
+    "bottomLeft": {
+      "nationality": "Thai"
+    }
+  },
+  "photos": [
+    {
+      "Nationality": "Thai",
+      "ImagePath": "Photos\\thai1.jpg"
+    },
+    {
+      "Nationality": "Thai",
+      "ImagePath": "Photos\\thai2.jpg"
+    },
+    {
+      "Nationality": "Thai",
+      "ImagePath": "Photos\\thai3.jpg"
+    },
+    {
+      "Nationality": "Korean",
+      "ImagePath": "Photos\\korean1.jpg"
+    },
+    {
+      "Nationality": "Korean",
+      "ImagePath": "Photos\\korean2.jpg"
+    },
+    {
+      "Nationality": "Korean",
+      "ImagePath": "Photos\\korean3.jpg"
+    },
+    {
+      "Nationality": "Japanese",
+      "ImagePath": "Photos\\japanese1.jpg"
+    },
+    {
+      "Nationality": "Japanese",
+      "ImagePath": "Photos\\japanese2.jpg"
+    },
+    {
+      "Nationality": "Japanese",
+      "ImagePath": "Photos\\japanese3.jpg"
+    },
+    {
+      "Nationality": "Chinese",
+      "ImagePath": "Photos\\chinese1.jpg"
+    },
+    {
+      "Nationality": "Chinese",
+      "ImagePath": "Photos\\chinese2.jpg"
+    },
+    {
+      "Nationality": "Chinese",
+      "ImagePath": "Photos\\chinese3.jpg"
+    }
+  ],
+  "shufflePhotos": true,
+  "photoRunTimeInMs": 3000 
 }

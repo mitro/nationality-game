@@ -5,8 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NationalityGame.App"
         mc:Ignorable="d"
-        Title="Nationality Game" Height="600" Width="800" Loaded="Window_Loaded" WindowState="Maximized">
+        Title="Nationality Game" Height="600" Width="800" Loaded="Window_Loaded" WindowState="Maximized" ResizeMode="NoResize" WindowStyle="None">
     <Grid>
         <Canvas Grid.Row="0" x:Name="GameCanvas" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="White"/>
     </Grid>
+    <Window.CommandBindings>
+        <CommandBinding Command="Close" Executed="OnCloseExecuted" />
+    </Window.CommandBindings>
+    <Window.InputBindings>
+        <KeyBinding Command="Close" Key="Escape" />
+    </Window.InputBindings>
 </Window>

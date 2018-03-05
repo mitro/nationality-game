@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Input;
 using NationalityGame.App.Bootstrapping;
 
 namespace NationalityGame.App
@@ -20,6 +21,11 @@ namespace NationalityGame.App
             _bootstrapper = new GameBootstrapper();
 
             _bootstrapper.Bootstrap(this);
+        }
+
+        private void OnCloseExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }
