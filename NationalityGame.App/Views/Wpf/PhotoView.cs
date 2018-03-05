@@ -12,6 +12,8 @@ namespace NationalityGame.App.Views.Wpf
 {
     public class PhotoView : IPhotoView
     {
+        public const string PhotoShapeName = "PhotoShapeName";
+
         private const string OpacityProperty = "Opacity";
 
         private readonly System.Windows.Controls.Canvas _canvas;
@@ -107,6 +109,8 @@ namespace NationalityGame.App.Views.Wpf
 
             _photoRectangle = new Rectangle
             {
+                Name = PhotoShapeName,
+
                 Height = _height,
                 Width = _width,
 

@@ -13,8 +13,6 @@ namespace NationalityGame.App.Interactivity.Wpf
 
         private DateTime _lastTickAt;
 
-        public event Action<double> Ticked;
-
         public Ticker()
         {
             _backgroundWorker = new BackgroundWorker();
@@ -25,6 +23,8 @@ namespace NationalityGame.App.Interactivity.Wpf
 
             _timer.Elapsed += OnTimerElapsed;
         }
+
+        public event Action<double> Ticked;
 
         public void Start()
         {

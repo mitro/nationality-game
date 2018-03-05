@@ -2,6 +2,8 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Shapes;
+using NationalityGame.App.Views.Wpf;
 using NationalityGame.Presentation.Interactivity;
 
 namespace NationalityGame.App.Interactivity.Wpf
@@ -12,34 +14,46 @@ namespace NationalityGame.App.Interactivity.Wpf
 
         private Point _startPosition;
 
-        public event Action<Vector> PanRecognized;
+        private bool _gestureInProgress;
 
         public UserInteractionRecognizer(Canvas canvas)
         {
             _canvas = canvas;
 
-            _canvas.MouseUp += CanvasOnMouseUp;
             _canvas.MouseDown += CanvasOnMouseDown;
+            _canvas.MouseUp += CanvasOnMouseUp;
         }
+
+        public event Action<Vector> PanRecognized;
 
         private void CanvasOnMouseDown(object sender, MouseButtonEventArgs args)
         {
-            _startPosition = args.GetPosition(_canvas);
+            if (args.Source is Shape sourceShape &&
+                sourceShape.Name == PhotoView.PhotoShapeName)
+            {
+                _gestureInProgress = true;
+                _startPosition = args.GetPosition(_canvas);
+            }
         }
 
-        // TODO Check pan is over image
         private void CanvasOnMouseUp(object sender, MouseButtonEventArgs args)
         {
+            if (!_gestureInProgress)
+            {
+                return;
+            }
+
+            _gestureInProgress = false;
+
             var endPosition = args.GetPosition(_canvas);
 
-            var vector1 = new Vector(
+            var vector = new Vector(
                 endPosition.X - _startPosition.X,
                 endPosition.Y - _startPosition.Y);
 
-            // TODO Move to settings
-            if (vector1.Length >= 20)
+            if (vector.Length >= 20)
             {
-                PanRecognized?.Invoke(vector1);
+                PanRecognized?.Invoke(vector);
             }
         }
     }
