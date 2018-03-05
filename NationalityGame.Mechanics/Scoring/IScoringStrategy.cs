@@ -1,4 +1,4 @@
-﻿namespace NationalityGame.Mechanics
+﻿namespace NationalityGame.Mechanics.Scoring
 {
     public interface IScoringStrategy
     {

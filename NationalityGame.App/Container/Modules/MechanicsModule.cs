@@ -2,6 +2,7 @@
 using NationalityGame.Configuration.Settings;
 using NationalityGame.Mechanics;
 using NationalityGame.Mechanics.Domain;
+using NationalityGame.Mechanics.Scoring;
 
 namespace NationalityGame.App.Container.Modules
 {
@@ -16,7 +17,7 @@ namespace NationalityGame.App.Container.Modules
             {
                 var settings = c.Resolve<GameSettings>();
 
-                return new ScoringStrategy(
+                return new AdditionScoringStrategy(
                     settings.Rules.CorrectChoiceScore,
                     settings.Rules.IncorrectChoiceScore);
             })

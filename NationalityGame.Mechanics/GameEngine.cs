@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using NationalityGame.Mechanics.Domain;
+using NationalityGame.Mechanics.Scoring;
 using NationalityGame.Mechanics.Utils;
 
 namespace NationalityGame.Mechanics
@@ -11,9 +12,9 @@ namespace NationalityGame.Mechanics
     {
         private readonly Settings _settings;
 
-        private readonly IScoringStrategy _score;
-
         private readonly Game _game;
+
+        private readonly IScoringStrategy _score;
 
         private Queue<Photo> _roundPhotos;
 
@@ -23,12 +24,13 @@ namespace NationalityGame.Mechanics
 
         public GameEngine(
             Settings settings,
-            IScoringStrategy score,
-            Game game)
+            Game game,
+            IScoringStrategy score
+            )
         {
             _settings = settings;
-            _score = score;
             _game = game;
+            _score = score;
         }
 
         public event Action<int> RoundFinished;

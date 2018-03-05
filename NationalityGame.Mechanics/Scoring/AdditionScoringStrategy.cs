@@ -1,6 +1,6 @@
-﻿namespace NationalityGame.Mechanics
+﻿namespace NationalityGame.Mechanics.Scoring
 {
-    public class ScoringStrategy : IScoringStrategy
+    public class AdditionScoringStrategy : IScoringStrategy
     {
         private readonly int _correctChoicePoints;
 
@@ -8,7 +8,7 @@
 
         public int TotalScore { get; private set; }
 
-        public ScoringStrategy(int correctChoicePoints, int incorrectChoicePoints)
+        public AdditionScoringStrategy(int correctChoicePoints, int incorrectChoicePoints)
         {
             _correctChoicePoints = correctChoicePoints;
             _incorrectChoicePoints = incorrectChoicePoints;
