@@ -7,37 +7,28 @@ using NationalityGame.Mechanics.Utils;
 
 namespace NationalityGame.Mechanics
 {
-    public class Game : IGame
+    public class GameEngine : IGameEngine
     {
         private readonly Settings _settings;
 
-        private readonly Board _board;
-
-        public IEnumerable<Bucket> Buckets { get; }
-
-        private readonly IEnumerable<Photo> _photos;
-
         private readonly IScoringStrategy _score;
 
-        private Bucket _chosenBucket;
+        private readonly Game _game;
 
         private Queue<Photo> _roundPhotos;
 
+        private Bucket _chosenBucket;
+
         private Photo _runningPhoto;
 
-        public Game(
+        public GameEngine(
             Settings settings,
-            Board board,
-            IEnumerable<Bucket> buckets,
-            IEnumerable<Photo> photos,
-            IScoringStrategy score)
+            IScoringStrategy score,
+            Game game)
         {
             _settings = settings;
-            _board = board;
-            _photos = photos;
             _score = score;
-
-            Buckets = buckets;
+            _game = game;
         }
 
         public event Action<int> RoundFinished;
@@ -61,7 +52,7 @@ namespace NationalityGame.Mechanics
         {
             _runningPhoto.Move(msSinceLastTick * _settings.VelocityInPxPerMs);
 
-            if (_board.CheckPhotoLeft(_runningPhoto))
+            if (_game.Board.CheckPhotoLeft(_runningPhoto))
             {
                 if (_chosenBucket != null)
                 {
@@ -107,7 +98,7 @@ namespace NationalityGame.Mechanics
 
         private Bucket GetBucketPannedTo(Vector vector)
         {
-            return Buckets
+            return _game.Buckets
                 .Select(bucket => new
                 {
                     Bucket = bucket,
@@ -144,7 +135,7 @@ namespace NationalityGame.Mechanics
 
         private Queue<Photo> GetRoundPhotos()
         {
-            var clonedPhotos = _photos.Select(p => p.Clone());
+            var clonedPhotos = _game.Photos.Select(p => p.Clone());
 
             if (_settings.ShufflePhotos)
             {

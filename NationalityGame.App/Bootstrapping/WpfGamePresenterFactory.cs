@@ -3,11 +3,12 @@ using NationalityGame.App.Interactivity.Wpf;
 using NationalityGame.App.Views.Wpf;
 using NationalityGame.Configuration.Settings;
 using NationalityGame.Mechanics;
+using NationalityGame.Mechanics.Domain;
 using NationalityGame.Presentation;
 
 namespace NationalityGame.App.Bootstrapping
 {
-    public class GamePresenterWpfFactory
+    public class WpfGamePresenterFactory
     {
         public GamePresenter Create(Game game, GameSettings settings, GameWindow window)
         {
@@ -28,7 +29,7 @@ namespace NationalityGame.App.Bootstrapping
             var ticker = new Ticker(settings.Appearance.TickIntervalInMs);
 
             return new GamePresenter(
-                game,
+                null,
                 photoView,
                 gameResultView,
                 bucketViews,

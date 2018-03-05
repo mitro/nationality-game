@@ -4,7 +4,7 @@ using NationalityGame.Mechanics.Domain;
 
 namespace NationalityGame.Mechanics
 {
-    public interface IGame
+    public interface IGameEngine
     {
         event Action<int> RoundFinished;
 

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NationalityGame.App"
         mc:Ignorable="d"
-        Title="Nationality Game" Height="600" Width="800" Loaded="Window_Loaded" WindowState="Maximized" ResizeMode="NoResize" WindowStyle="None">
+        Title="Nationality Game" Height="600" Width="800" Loaded="Window_Loaded" WindowState="Maximized" ResizeMode="NoResize" WindowStyle="None" Closing="Window_Closing">
     <Grid>
         <Canvas Grid.Row="0" x:Name="GameCanvas" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="White"/>
     </Grid>

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using NationalityGame.Configuration;
@@ -9,9 +8,9 @@ using NationalityGame.Presentation;
 
 namespace NationalityGame.App.Bootstrapping
 {
-    public class GameBootstrapper
+    public class GameBootstrapper : IGameBootstrapper
     {
-        private Game _game;
+        private GameEngine _game;
 
         private GamePresenter _gamePresenter;
 
@@ -43,17 +42,17 @@ namespace NationalityGame.App.Bootstrapping
 
             var velocity = board.Height / settings.Appearance.PhotoRunTimeInMs;
 
-            var gameSettings = new Game.Settings(settings.Rules.ShufflePhotos, velocity);
+            var gameSettings = new GameEngine.Settings(settings.Rules.ShufflePhotos, velocity);
 
             var score = new ScoringStrategy(settings.Rules.CorrectChoiceScore, settings.Rules.IncorrectChoiceScore);
 
-            _game = new Game(gameSettings, board, buckets, photos, score);
+            //_game = new GameEngine(gameSettings, board, buckets, photos, score);
 
-            var presenterFactory = new GamePresenterWpfFactory();
+            //var presenterFactory = new WpfGamePresenterFactory();
 
-            _gamePresenter = presenterFactory.Create(_game, settings, window);
+            //_gamePresenter = presenterFactory.Create(_game, settings, window);
 
-            _gamePresenter.Start();
+            //_gamePresenter.Start();
         }
     }
 }

@@ -8,11 +8,11 @@ using NationalityGame.Presentation.Views;
 
 namespace NationalityGame.Presentation
 {
-    public class GamePresenter
+    public class GamePresenter : IGamePresenter
     {
         private bool _isStarted;
 
-        private readonly IGame _game;
+        private readonly IGameEngine _game;
 
         private readonly IPhotoView _photoView;
 
@@ -23,7 +23,7 @@ namespace NationalityGame.Presentation
         private readonly ITicker _ticker;
 
         public GamePresenter(
-            IGame game,
+            IGameEngine game,
             IPhotoView photoView,
             IGameResultView gameResultView,
             IEnumerable<IBucketView> bucketViews,
