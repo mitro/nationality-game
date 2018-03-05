@@ -12,7 +12,7 @@ namespace NationalityGame.Presentation
     {
         private bool _isStarted;
 
-        private readonly Game _game;
+        private readonly IGame _game;
 
         private readonly IPhotoView _photoView;
 
@@ -23,7 +23,7 @@ namespace NationalityGame.Presentation
         private readonly ITicker _ticker;
 
         public GamePresenter(
-            Game game,
+            IGame game,
             IPhotoView photoView,
             IGameResultView gameResultView,
             IEnumerable<IBucketView> bucketViews,
@@ -47,16 +47,6 @@ namespace NationalityGame.Presentation
             _ticker.Ticked += TickerOnTicked;
 
             userInteractionRecognizer.PanRecognized += UserInteractionRecognizerOnPanRecognized;
-        }
-
-        private void GameOnBucketChosen(Bucket bucket, double timeToReachInMs)
-        {
-            _photoView.StartFadingOut(timeToReachInMs);
-        }
-
-        private void GameOnNextPhotoRun(Photo photo)
-        {
-            _photoView.Show(photo);
         }
 
         public void Start()
@@ -114,6 +104,16 @@ namespace NationalityGame.Presentation
         private void TickerOnTicked(double msSinceLastTick)
         {
             _game.ProcessTick(msSinceLastTick);
+        }
+
+        private void GameOnBucketChosen(Bucket bucket, double timeToReachInMs)
+        {
+            _photoView.StartFadingOut(timeToReachInMs);
+        }
+
+        private void GameOnNextPhotoRun(Photo photo)
+        {
+            _photoView.Show(photo);
         }
     }
 }

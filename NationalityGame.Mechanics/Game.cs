@@ -7,7 +7,7 @@ using NationalityGame.Mechanics.Utils;
 
 namespace NationalityGame.Mechanics
 {
-    public class Game
+    public class Game : IGame
     {
         private readonly Settings _settings;
 
@@ -17,7 +17,7 @@ namespace NationalityGame.Mechanics
 
         private readonly IEnumerable<Photo> _photos;
 
-        private readonly Score _score;
+        private readonly IScoringStrategy _score;
 
         private Bucket _chosenBucket;
 
@@ -30,17 +30,14 @@ namespace NationalityGame.Mechanics
             Board board,
             IEnumerable<Bucket> buckets,
             IEnumerable<Photo> photos,
-            Score score)
+            IScoringStrategy score)
         {
             _settings = settings;
-
             _board = board;
+            _photos = photos;
+            _score = score;
 
             Buckets = buckets;
-
-            _photos = photos;
-
-            _score = score;
         }
 
         public event Action<int> RoundFinished;

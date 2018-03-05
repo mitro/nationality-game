@@ -25,7 +25,7 @@ namespace NationalityGame.App
 
         private void OnCloseExecuted(object sender, ExecutedRoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
     }
 }

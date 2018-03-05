@@ -45,7 +45,7 @@ namespace NationalityGame.App.Bootstrapping
 
             var gameSettings = new Game.Settings(settings.ShufflePhotos, velocity);
 
-            var score = new Score(settings.Scoring.CorrectPoints, settings.Scoring.IncorrectPoints);
+            var score = new ScoringStrategy(settings.Scoring.CorrectPoints, settings.Scoring.IncorrectPoints);
 
             _game = new Game(gameSettings, board, buckets, photos, score);
 
