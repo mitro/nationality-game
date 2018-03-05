@@ -6,6 +6,6 @@
 
         void Reset();
 
-        void Change(bool choiceIsCorrect);
+        void ChangeScore(bool choiceIsCorrect);
     }
 }

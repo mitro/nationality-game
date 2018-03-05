@@ -58,7 +58,7 @@ namespace NationalityGame.Mechanics
             {
                 if (_chosenBucket != null)
                 {
-                    _score.Change(_chosenBucket.Matches(_runningPhoto));
+                    _score.ChangeScore(_chosenBucket.Matches(_runningPhoto));
                 }
 
                 RunNextPhoto();

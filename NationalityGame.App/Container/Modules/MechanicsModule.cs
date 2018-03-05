@@ -17,7 +17,7 @@ namespace NationalityGame.App.Container.Modules
             {
                 var settings = c.Resolve<GameSettings>();
 
-                return new AdditionScoringStrategy(
+                return new AddingScoringStrategy(
                     settings.Rules.CorrectChoiceScore,
                     settings.Rules.IncorrectChoiceScore);
             })
