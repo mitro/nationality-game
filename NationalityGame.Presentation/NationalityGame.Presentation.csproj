@@ -45,12 +45,18 @@
     <Compile Include="IGamePresenter.cs" />
     <Compile Include="Interactivity\ITicker.cs" />
     <Compile Include="Interactivity\IUserInteractionRecognizer.cs" />
+    <Compile Include="Layout\GameLayout.cs" />
+    <Compile Include="Layout\IGameLayout.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\IBucketView.cs" />
     <Compile Include="Views\IGameResultView.cs" />
     <Compile Include="Views\IPhotoView.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NationalityGame.Configuration\NationalityGame.Configuration.csproj">
+      <Project>{8212CD46-CEF6-4D84-92A2-FF6E1996F215}</Project>
+      <Name>NationalityGame.Configuration</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NationalityGame.Mechanics\NationalityGame.Mechanics.csproj">
       <Project>{A6E54DF0-8BF2-4E61-8441-C77C847A8470}</Project>
       <Name>NationalityGame.Mechanics</Name>

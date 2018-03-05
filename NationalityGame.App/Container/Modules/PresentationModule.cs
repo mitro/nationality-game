@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using NationalityGame.Presentation;
+using NationalityGame.Presentation.Layout;
 
 namespace NationalityGame.App.Container.Modules
 {
@@ -9,6 +10,9 @@ namespace NationalityGame.App.Container.Modules
         {
             builder.RegisterType<GamePresenter>()
                 .As<IGamePresenter>();
+
+            builder.RegisterType<GameLayout>()
+                .As<IGameLayout>();
         }
     }
 }

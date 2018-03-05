@@ -71,9 +71,9 @@
     <Compile Include="Views\Wpf\GameResultView.cs" />
     <Compile Include="Utils\UiThread.cs" />
     <None Include="packages.config" />
-    <None Include="settings.json">
+    <Content Include="settings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </Content>
     <Compile Include="Views\Wpf\BucketView.cs" />
     <Compile Include="Views\Wpf\PhotoView.cs" />
     <Page Include="GameWindow.xaml">
