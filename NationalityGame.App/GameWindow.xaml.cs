@@ -2,7 +2,6 @@
 using System.Windows;
 using System.Windows.Input;
 using Autofac;
-using NationalityGame.App.Bootstrapping;
 using NationalityGame.App.Container;
 using NationalityGame.Configuration;
 using NationalityGame.Configuration.Settings;
@@ -15,8 +14,6 @@ namespace NationalityGame.App
     /// </summary>
     public partial class GameWindow : Window
     {
-        private GameBootstrapper _bootstrapper;
-
         private ILifetimeScope _rootLifetimeScope;
 
         public GameWindow()
@@ -35,19 +32,13 @@ namespace NationalityGame.App
             var gamePresenter = _rootLifetimeScope.Resolve<IGamePresenter>();
 
             gamePresenter.Start();
-
-            //    _bootstrapper = new GameBootstrapper();
-
-            //_bootstrapper.Bootstrap(this);
         }
 
         private GameSettings TryReadSettings()
         {
-            var settingsReader = new SettingsReader();
-
             try
             {
-                return settingsReader.Read();
+                return SettingsReader.Read();
             }
             catch (Exception ex)
             {

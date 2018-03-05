@@ -61,10 +61,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Bootstrapping\GameBootstrapper.cs" />
-    <Compile Include="Bootstrapping\WpfGamePresenterFactory.cs" />
-    <Compile Include="Bootstrapping\IGameBootstrapper.cs" />
     <Compile Include="Container\AutofacContainer.cs" />
+    <Compile Include="Container\Modules\DomainModule.cs" />
+    <Compile Include="Container\Modules\InteractivityModule.cs" />
+    <Compile Include="Container\Modules\MechanicsModule.cs" />
+    <Compile Include="Container\Modules\PresentationModule.cs" />
+    <Compile Include="Container\Modules\ViewsModule.cs" />
     <Compile Include="Interactivity\Wpf\Ticker.cs" />
     <Compile Include="Views\Wpf\GameResultView.cs" />
     <Compile Include="Utils\UiThread.cs" />

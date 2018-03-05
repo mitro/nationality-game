@@ -4,11 +4,11 @@ using Newtonsoft.Json;
 
 namespace NationalityGame.Configuration
 {
-    public class SettingsReader
+    public static class SettingsReader
     {
         private const string SettingsFilePath = ".\\settings.json";
 
-        public GameSettings Read()
+        public static GameSettings Read()
         {
             var settingsText = File.ReadAllText(SettingsFilePath);
 
