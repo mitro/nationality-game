@@ -22,7 +22,7 @@ namespace NationalityGame.App.Views.Wpf
         {
             UiThread.Dispatch(() =>
             {
-                _scoreLabel.Content = $"Current score is {currentScore}";
+                _scoreLabel.Content = $"Total score is {currentScore}";
                 _scoreLabel.Visibility = Visibility.Visible;
             });
         }
