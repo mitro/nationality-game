@@ -35,6 +35,14 @@ namespace NationalityGame.App.Container.Modules
             builder.Register(c =>
             {
                 var window = c.Resolve<GameWindow>();
+
+                return new CurrentScoreView(window.GameCanvas);
+            })
+                .As<ICurrentScoreView>();
+
+            builder.Register(c =>
+            {
+                var window = c.Resolve<GameWindow>();
                 var settings = c.Resolve<GameSettings>();
                 var game = c.Resolve<Game>();
 

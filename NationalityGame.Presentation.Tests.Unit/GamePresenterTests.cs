@@ -246,6 +246,38 @@ namespace NationalityGame.Presentation.Tests.Unit
                 .Verify(v => v.Show(photo), Times.Once);
         }
 
+        [Fact]
+        public void Should_show_current_score_on_current_score_change()
+        {
+            var env = new TestEnv();
+
+            var presenter = env.Setup();
+
+            presenter.Start();
+
+            env.Dependency<IGameEngine>()
+                .Raise(e => e.CurrentScoreChanged += null, 52);
+
+            env.Dependency<ICurrentScoreView>()
+                .Verify(v => v.Show(52), Times.Once);
+        }
+
+        [Fact]
+        public void Should_hide_current_score_on_round_finished()
+        {
+            var env = new TestEnv();
+
+            var presenter = env.Setup();
+
+            presenter.Start();
+
+            env.Dependency<IGameEngine>()
+                .Raise(e => e.RoundFinished += null, 52);
+
+            env.Dependency<ICurrentScoreView>()
+                .Verify(v => v.Hide(), Times.Once);
+        }
+
         private class TestEnv : BaseTestEnv<GamePresenter>
         {
             protected override void SetupDependencies()
@@ -255,6 +287,8 @@ namespace NationalityGame.Presentation.Tests.Unit
                 AddDependency<IPhotoView>();
 
                 AddDependency<IGameResultView>();
+
+                AddDependency<ICurrentScoreView>();
 
                 AddDependency<IBucketView>();
 

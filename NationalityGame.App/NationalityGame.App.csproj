@@ -68,6 +68,7 @@
     <Compile Include="Container\Modules\PresentationModule.cs" />
     <Compile Include="Container\Modules\ViewsModule.cs" />
     <Compile Include="Interactivity\Wpf\Ticker.cs" />
+    <Compile Include="Views\Wpf\CurrentScoreView.cs" />
     <Compile Include="Views\Wpf\GameResultView.cs" />
     <Compile Include="Utils\UiThread.cs" />
     <None Include="packages.config" />

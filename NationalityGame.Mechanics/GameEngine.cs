@@ -41,9 +41,13 @@ namespace NationalityGame.Mechanics
 
         public event Action<double> BucketChosen;
 
+        public event Action<int> CurrentScoreChanged;
+
         public void StartNewRound()
         {
             _score.Reset();
+
+            CurrentScoreChanged?.Invoke(0);
 
             _roundPhotos = GetRoundPhotos();
 
@@ -59,6 +63,8 @@ namespace NationalityGame.Mechanics
                 if (_chosenBucket != null)
                 {
                     _score.ChangeScore(_chosenBucket.Matches(_runningPhoto));
+
+                    CurrentScoreChanged?.Invoke(_score.TotalScore);
                 }
 
                 RunNextPhoto();

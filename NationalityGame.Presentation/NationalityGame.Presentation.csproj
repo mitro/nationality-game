@@ -49,6 +49,7 @@
     <Compile Include="Layout\IGameLayout.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\IBucketView.cs" />
+    <Compile Include="Views\ICurrentScoreView.cs" />
     <Compile Include="Views\IGameResultView.cs" />
     <Compile Include="Views\IPhotoView.cs" />
   </ItemGroup>

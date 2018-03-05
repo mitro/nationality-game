@@ -14,6 +14,8 @@ namespace NationalityGame.Mechanics
 
         event Action<double> BucketChosen;
 
+        event Action<int> CurrentScoreChanged; 
+
         void StartNewRound();
 
         void ProcessTick(double msSinceLastTick);

@@ -18,6 +18,8 @@ namespace NationalityGame.Presentation
 
         private readonly IGameResultView _gameResultView;
 
+        private readonly ICurrentScoreView _currentScoreView;
+
         private readonly IEnumerable<IBucketView> _bucketViews;
 
         private readonly ITicker _ticker;
@@ -28,6 +30,7 @@ namespace NationalityGame.Presentation
             IGameEngine gameEngine,
             IPhotoView photoView,
             IGameResultView gameResultView,
+            ICurrentScoreView currentScoreView,
             IEnumerable<IBucketView> bucketViews,
             ITicker ticker,
             IGestureRecognizer gestureRecognizer)
@@ -35,6 +38,7 @@ namespace NationalityGame.Presentation
             _gameEngine = gameEngine;
             _photoView = photoView;
             _gameResultView = gameResultView;
+            _currentScoreView = currentScoreView;
             _bucketViews = bucketViews;
             _ticker = ticker;
             _gestureRecognizer = gestureRecognizer;
@@ -62,6 +66,7 @@ namespace NationalityGame.Presentation
             _gameEngine.RoundFinished += GameEngineOnRoundFinished;
             _gameEngine.NextPhotoRun += GameEngineOnNextPhotoRun;
             _gameEngine.BucketChosen += GameEngineOnBucketChosen;
+            _gameEngine.CurrentScoreChanged += GameEngineOnCurrentScoreChanged;
 
             _gameResultView.PlayAgainRequested += GameResultViewOnPlayAgainRequested;
 
@@ -110,6 +115,8 @@ namespace NationalityGame.Presentation
 
             _photoView.Hide();
 
+            _currentScoreView.Hide();
+
             _gameResultView.Show(score);
         }
 
@@ -121,6 +128,11 @@ namespace NationalityGame.Presentation
         private void GameEngineOnNextPhotoRun(Photo photo)
         {
             _photoView.Show(photo);
+        }
+
+        private void GameEngineOnCurrentScoreChanged(int currentScore)
+        {
+            _currentScoreView.Show(currentScore);
         }
     }
 }
