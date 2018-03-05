@@ -12,34 +12,26 @@ namespace NationalityGame.Mechanics
     {
         private readonly Board _board;
 
-        private readonly double _velocity;
+        private readonly double _velocityInPxPerMs;
 
         public IEnumerable<Bucket> Buckets { get; }
 
-        public event Action<Bucket, double> BucketSelected;
+        private readonly IEnumerable<Photo> _photos;
 
-        public event Action<Photo> NextPhotoSent;
-
-        public event Action<int> RoundFinished;
-
-        public event Action TickProcessed;
+        private readonly Score _score;
 
         private Bucket _chosenBucket;
 
         private Queue<Photo> _roundPhotos;
 
-        private Photo _currentPhoto;
-
-        private readonly IEnumerable<Photo> _photos;
-
-        private readonly Score _score;
+        private Photo _runningPhoto;
 
         public Game(
             Board board,
             IEnumerable<Bucket> buckets,
             IEnumerable<Photo> photos,
             Score score,
-            double velocity)
+            double velocityInPxPerMs)
         {
             _board = board;
 
@@ -49,34 +41,38 @@ namespace NationalityGame.Mechanics
 
             _score = score;
 
-            _velocity = velocity;
+            _velocityInPxPerMs = velocityInPxPerMs;
         }
 
-        public void StartRound()
+        public event Action<int> RoundFinished;
+
+        public event Action TickProcessed;
+
+        public event Action<Photo> NextPhotoRun;
+
+        public event Action<Bucket, double> BucketChosen;
+
+        public void StartNewRound()
         {
             _score.Reset();
 
             _roundPhotos = new Queue<Photo>(_photos.Select(p => p.Clone()));
 
-            SendNextPhoto();
+            RunNextPhoto();
         }
 
         public void ProcessTick(double msSinceLastTick)
         {
-            _currentPhoto.Move(msSinceLastTick * _velocity);
+            _runningPhoto.Move(msSinceLastTick * _velocityInPxPerMs);
 
-            if (PhotoLeftBoard())
+            if (_board.CheckPhotoLeft(_runningPhoto))
             {
-                if (_chosenBucket == null)
+                if (_chosenBucket != null)
                 {
-                    SendNextPhoto();
+                    _score.Change(_chosenBucket.Matches(_runningPhoto));
                 }
-                else if (_chosenBucket != null)
-                {
-                    _score.Change(_chosenBucket.Matches(_currentPhoto));
 
-                    SendNextPhoto();
-                }
+                RunNextPhoto();
             }
 
             TickProcessed?.Invoke();
@@ -89,16 +85,7 @@ namespace NationalityGame.Mechanics
                 return;
             }
 
-            var chosenBucket = Buckets
-                .Select(bucket => new
-                {
-                    Bucket = bucket,
-                    Angle = Math.Abs(Vector.AngleBetween(vector, _currentPhoto.GetVectorTo(bucket)))
-                })
-                .Where(bucketData => bucketData.Angle <= 20)
-                .OrderBy(bucketData => bucketData.Angle)
-                .Select(bucketData => bucketData.Bucket)
-                .FirstOrDefault();
+            var chosenBucket = GetBucketPannedTo(vector);
 
             if (chosenBucket == null)
             {
@@ -107,32 +94,51 @@ namespace NationalityGame.Mechanics
 
             _chosenBucket = chosenBucket;
 
-            _currentPhoto.SetMovementVector(_currentPhoto.GetVectorTo(chosenBucket));
+            _runningPhoto.SetMovementVector(_runningPhoto.GetVectorTo(chosenBucket));
 
-            BucketSelected?.Invoke(chosenBucket, _currentPhoto.GetVectorTo(chosenBucket).Length / _velocity);
+            BucketChosen?.Invoke(chosenBucket, CalcTimeToReach(chosenBucket));
         }
 
-        private bool PhotoLeftBoard()
+        private double CalcTimeToReach(Bucket chosenBucket)
         {
-            return !_board.ObjectIsInside(_currentPhoto);
+            return _runningPhoto.GetVectorTo(chosenBucket).Length / _velocityInPxPerMs;
         }
 
-        private void SendNextPhoto()
+        private Bucket GetBucketPannedTo(Vector vector)
+        {
+            return Buckets
+                .Select(bucket => new
+                {
+                    Bucket = bucket,
+                    Angle = Math.Abs(Vector.AngleBetween(vector, _runningPhoto.GetVectorTo(bucket)))
+                })
+                .Where(bucketData => bucketData.Angle <= 20)
+                .OrderBy(bucketData => bucketData.Angle)
+                .Select(bucketData => bucketData.Bucket)
+                .FirstOrDefault();
+        }
+
+        private void RunNextPhoto()
         {
             _chosenBucket = null;
 
-            if (_roundPhotos.Count == 0)
+            if (NoPhotosLeft())
             {
                 RoundFinished?.Invoke(_score.TotalScore);
 
                 return;
             }
 
-            _currentPhoto = _roundPhotos.Dequeue();
+            _runningPhoto = _roundPhotos.Dequeue();
 
-            _currentPhoto.SetMovementVector(new Vector(0, 1));
+            _runningPhoto.SetMovementVector(new Vector(0, 1));
 
-            NextPhotoSent?.Invoke(_currentPhoto);
+            NextPhotoRun?.Invoke(_runningPhoto);
+        }
+
+        private bool NoPhotosLeft()
+        {
+            return !_roundPhotos.Any();
         }
     }
 }

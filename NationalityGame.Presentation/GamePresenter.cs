@@ -33,8 +33,8 @@ namespace NationalityGame.Presentation
             _game = game;
             _game.TickProcessed += GameOnTickProcessed;
             _game.RoundFinished += GameOnRoundFinished;
-            _game.NextPhotoSent += GameOnNextPhotoSent;
-            _game.BucketSelected += GameOnBucketSelected;
+            _game.NextPhotoRun += GameOnNextPhotoRun;
+            _game.BucketChosen += GameOnBucketChosen;
 
             _photoView = photoView;
 
@@ -49,12 +49,12 @@ namespace NationalityGame.Presentation
             userInteractionRecognizer.PanRecognized += UserInteractionRecognizerOnPanRecognized;
         }
 
-        private void GameOnBucketSelected(Bucket bucket, double approachingTimeInMs)
+        private void GameOnBucketChosen(Bucket bucket, double timeToReachInMs)
         {
-            _photoView.StartFadingOut(approachingTimeInMs);
+            _photoView.StartFadingOut(timeToReachInMs);
         }
 
-        private void GameOnNextPhotoSent(Photo photo)
+        private void GameOnNextPhotoRun(Photo photo)
         {
             _photoView.Start(photo);
         }
@@ -68,7 +68,7 @@ namespace NationalityGame.Presentation
                 bucketView.Show();
             }
 
-            _game.StartRound();
+            _game.StartNewRound();
 
             _ticker.Start();
         }
@@ -106,7 +106,7 @@ namespace NationalityGame.Presentation
         {
             _gameResultView.Hide();
 
-            _game.StartRound();
+            _game.StartNewRound();
 
             _ticker.Start();
         }

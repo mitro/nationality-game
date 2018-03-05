@@ -20,5 +20,10 @@
                 gameObject.Center.Y >= 0 &&
                 gameObject.Center.Y <= Height;
         }
+
+        public bool CheckPhotoLeft(Photo photo)
+        {
+            return !ObjectIsInside(photo);
+        }
     }
 }
