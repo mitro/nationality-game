@@ -12,18 +12,12 @@
             Height = height;
         }
 
-        public bool CheckPhotoLeft(Photo photo)
+        public bool PhotoIsOutside(Photo photo)
         {
-            return !ObjectIsInside(photo);
-        }
-
-        private bool ObjectIsInside(GameObject gameObject)
-        {
-            return
-                gameObject.Center.X >= 0 &&
-                gameObject.Center.X <= Width &&
-                gameObject.Center.Y >= 0 &&
-                gameObject.Center.Y <= Height;
+            return photo.Center.X < 0 ||
+                   photo.Center.X > Width ||
+                   photo.Center.Y < 0 ||
+                   photo.Center.Y > Height;
         }
     }
 }

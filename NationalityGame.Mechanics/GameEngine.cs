@@ -54,7 +54,7 @@ namespace NationalityGame.Mechanics
         {
             _runningPhoto.Move(msSinceLastTick * _settings.VelocityInPxPerMs);
 
-            if (_game.Board.CheckPhotoLeft(_runningPhoto))
+            if (_game.Board.PhotoIsOutside(_runningPhoto))
             {
                 if (_chosenBucket != null)
                 {
