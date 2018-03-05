@@ -22,7 +22,7 @@ namespace NationalityGame.App.Views.Wpf
 
         private Photo _photo;
 
-        private Rectangle _rectangle;
+        private Rectangle _photoRectangle;
 
         public PhotoView(System.Windows.Controls.Canvas canvas, double width, double height)
         {
@@ -31,46 +31,26 @@ namespace NationalityGame.App.Views.Wpf
             _height = height;
         }
 
-        public void Start(Photo photo)
+        public void Show(Photo photo)
         {
+            _photo = photo;
+
             UiThread.Dispatch(() =>
             {
-                if (_rectangle != null)
-                {
-                    _canvas.Children.Remove(_rectangle);
-                }
+                RemovePreviousPhotoRectangleIfExists();
 
-                _photo = photo;
-
-                ImageBrush image = new ImageBrush
-                {
-                    ImageSource = new BitmapImage(new Uri(_photo.ImagePath, UriKind.Relative)),
-                    Stretch = Stretch.Uniform,
-                    AlignmentX = AlignmentX.Center,
-                    AlignmentY = AlignmentY.Center,
-                };
-
-                _rectangle = new Rectangle
-                {
-                    Height = _height,
-                    Width = _width,
-
-                    Fill = image,
-                    Opacity = 1.0,
-                };
-
-                _canvas.Children.Add(_rectangle);
+                CreatePhotoRectangle();
             });
 
-            Update();
+            Refresh();
         }
 
-        public void Update()
+        public void Refresh()
         {
             UiThread.Dispatch(() =>
             {
-                System.Windows.Controls.Canvas.SetLeft(_rectangle, _photo.Center.X - _width / 2);
-                System.Windows.Controls.Canvas.SetTop(_rectangle, _photo.Center.Y - _height / 2);
+                System.Windows.Controls.Canvas.SetLeft(_photoRectangle, _photo.Center.X - _width / 2);
+                System.Windows.Controls.Canvas.SetTop(_photoRectangle, _photo.Center.Y - _height / 2);
             });
         }
 
@@ -78,7 +58,7 @@ namespace NationalityGame.App.Views.Wpf
         {
             UiThread.Dispatch(() =>
             {
-                _rectangle.Visibility = Visibility.Hidden;
+                _photoRectangle.Visibility = Visibility.Hidden;
             });
         }
 
@@ -98,12 +78,43 @@ namespace NationalityGame.App.Views.Wpf
                 var storyboard = new Storyboard();
                 storyboard.Children.Add(animation);
 
-                Storyboard.SetTarget(animation, _rectangle);
+                Storyboard.SetTarget(animation, _photoRectangle);
                 Storyboard.SetTargetProperty(animation, new PropertyPath(OpacityProperty));
 
-                storyboard.Completed += delegate { _rectangle.Visibility = Visibility.Hidden; };
+                storyboard.Completed += delegate { _photoRectangle.Visibility = Visibility.Hidden; };
+
                 storyboard.Begin();
             });
+        }
+
+        private void RemovePreviousPhotoRectangleIfExists()
+        {
+            if (_photoRectangle != null)
+            {
+                _canvas.Children.Remove(_photoRectangle);
+            }
+        }
+
+        private void CreatePhotoRectangle()
+        {
+            ImageBrush image = new ImageBrush
+            {
+                ImageSource = new BitmapImage(new Uri(_photo.ImagePath, UriKind.Relative)),
+                Stretch = Stretch.Uniform,
+                AlignmentX = AlignmentX.Center,
+                AlignmentY = AlignmentY.Center,
+            };
+
+            _photoRectangle = new Rectangle
+            {
+                Height = _height,
+                Width = _width,
+
+                Fill = image,
+                Opacity = 1.0,
+            };
+
+            _canvas.Children.Add(_photoRectangle);
         }
     }
 }

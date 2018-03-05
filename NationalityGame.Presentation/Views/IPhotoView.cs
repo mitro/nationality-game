@@ -4,9 +4,9 @@ namespace NationalityGame.Presentation.Views
 {
     public interface IPhotoView
     {
-        void Start(Photo photo);
+        void Show(Photo photo);
          
-        void Update();
+        void Refresh();
 
         void StartFadingOut(double durationInMs);
 

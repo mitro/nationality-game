@@ -4,7 +4,7 @@ namespace NationalityGame.Presentation.Views
 {
     public interface IGameResultView
     {
-        event Action PlayAgainExecuted; 
+        event Action PlayAgainRequested; 
 
         void Show(int totalScore);
 

@@ -7,13 +7,10 @@ namespace NationalityGame.Mechanics.Domain
     {
         public string Nationality { get; }
 
-        public Point Position { get; }
-
-        public Bucket(string nationality, Point position)
-            : base(position)
+        public Bucket(string nationality, Point center)
+            : base(center)
         {
             Nationality = nationality;
-            Position = position;
         }
 
         public bool Matches(Photo photo)

@@ -39,7 +39,7 @@ namespace NationalityGame.Presentation
             _photoView = photoView;
 
             _gameResultView = gameResultView;
-            _gameResultView.PlayAgainExecuted += GameResultViewOnNewGameRequested;
+            _gameResultView.PlayAgainRequested += GameResultViewOnPlayAgainRequested;
 
             _bucketViews = bucketViews;
 
@@ -56,7 +56,7 @@ namespace NationalityGame.Presentation
 
         private void GameOnNextPhotoRun(Photo photo)
         {
-            _photoView.Start(photo);
+            _photoView.Show(photo);
         }
 
         public void Start()
@@ -85,7 +85,7 @@ namespace NationalityGame.Presentation
 
         private void GameOnTickProcessed()
         {
-            _photoView.Update();
+            _photoView.Refresh();
         }
 
         private void GameOnRoundFinished(int score)
@@ -102,7 +102,7 @@ namespace NationalityGame.Presentation
             _game.ProcessPan(vector);
         }
 
-        private void GameResultViewOnNewGameRequested()
+        private void GameResultViewOnPlayAgainRequested()
         {
             _gameResultView.Hide();
 
