@@ -8,6 +8,10 @@ namespace NationalityGame.Mechanics.Configuration
 
         public IEnumerable<PhotoSettings> Photos { get; set; }
 
+        public AppearanceSettings Appearance { get; set; }
+
+        public ScoringSettings Scoring { get; set; }
+
         public bool ShufflePhotos { get; set; }
     }
 }

@@ -41,8 +41,10 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\AppearanceSettings.cs" />
     <Compile Include="Configuration\BucketsSettings.cs" />
     <Compile Include="Configuration\BucketSettings.cs" />
+    <Compile Include="Configuration\ScoringSettings.cs" />
     <Compile Include="Domain\Board.cs" />
     <Compile Include="Domain\Bucket.cs" />
     <Compile Include="Configuration\GameSettings.cs" />

@@ -18,17 +18,20 @@ namespace NationalityGame.App.Bootstrapping
         {
             var board = new Board(window.GameCanvas.ActualWidth, window.GameCanvas.ActualHeight);
 
-            var buckets = new List<Bucket>
-            {
-                new Bucket("Japaneese", new Point(0, 0), 150, 150),
-                new Bucket("Chinese", new Point(board.Width - 150, 0), 150, 150),
-                new Bucket("Korean", new Point(board.Width - 150, board.Height - 150), 150, 150),
-                new Bucket("Thai", new Point(0, board.Height - 150), 150, 150)
-            };
-
             var settingsReader = new SettingsReader();
 
             var settings = settingsReader.Read();
+
+            var bucketHalfWidth = settings.Appearance.BucketWidth / 2;
+            var bucketHalfHeight = settings.Appearance.BucketHeight / 2;
+
+            var buckets = new List<Bucket>
+            {
+                new Bucket(settings.Buckets.TopLeft.Nationality, new Point(bucketHalfWidth, bucketHalfHeight)),
+                new Bucket(settings.Buckets.TopRight.Nationality, new Point(board.Width - bucketHalfWidth, bucketHalfHeight)),
+                new Bucket(settings.Buckets.BottomRight.Nationality, new Point(board.Width - bucketHalfWidth, board.Height - bucketHalfHeight)),
+                new Bucket(settings.Buckets.BottomLeft.Nationality, new Point(bucketHalfWidth, board.Height - bucketHalfHeight))
+            };
 
             var photos = settings.Photos
                 .Select(photo => new Photo(
@@ -41,13 +44,13 @@ namespace NationalityGame.App.Bootstrapping
 
             var gameSettings = new Game.Settings(settings.ShufflePhotos, velocity);
 
-            var score = new Score(20, -5);
+            var score = new Score(settings.Scoring.CorrectPoints, settings.Scoring.IncorrectPoints);
 
             _game = new Game(gameSettings, board, buckets, photos, score);
 
             var presenterFactory = new GamePresenterWpfFactory();
 
-            _gamePresenter = presenterFactory.Create(_game, window);
+            _gamePresenter = presenterFactory.Create(_game, settings, window);
 
             _gamePresenter.Start();
         }

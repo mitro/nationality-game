@@ -10,14 +10,15 @@ namespace NationalityGame.App.Views.Wpf
     class BucketView : IBucketView
     {
         private readonly Rectangle _rectangle;
+
         private readonly Label _label;
 
-        public BucketView(Bucket bucket, System.Windows.Controls.Canvas canvas)
+        public BucketView(Bucket bucket, Canvas canvas, double width, double height)
         {
             _rectangle = new Rectangle
             {
-                Height = bucket.Height,
-                Width = bucket.Width,
+                Height = height,
+                Width = width,
                 Fill = new SolidColorBrush(Colors.BlanchedAlmond),
                 Visibility = Visibility.Hidden,
             };
@@ -25,19 +26,19 @@ namespace NationalityGame.App.Views.Wpf
             _label = new Label
             {
                 Content = bucket.Nationality,
-                Height = bucket.Height,
-                Width = bucket.Width,
+                Height = height,
+                Width = width,
                 VerticalContentAlignment = VerticalAlignment.Center,
                 HorizontalContentAlignment = HorizontalAlignment.Center,
                 Visibility = Visibility.Hidden,
                 FontSize = 16
             };
 
-            System.Windows.Controls.Canvas.SetTop(_rectangle, bucket.Position.Y);
-            System.Windows.Controls.Canvas.SetLeft(_rectangle, bucket.Position.X);
+            Canvas.SetTop(_rectangle, bucket.Position.Y - height / 2);
+            Canvas.SetLeft(_rectangle, bucket.Position.X - width / 2);
 
-            System.Windows.Controls.Canvas.SetTop(_label, bucket.Position.Y);
-            System.Windows.Controls.Canvas.SetLeft(_label, bucket.Position.X);
+            Canvas.SetTop(_label, bucket.Position.Y - height / 2);
+            Canvas.SetLeft(_label, bucket.Position.X - width / 2);
 
             canvas.Children.Add(_rectangle);
             canvas.Children.Add(_label);

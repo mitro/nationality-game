@@ -63,6 +63,16 @@
       "ImagePath": "Photos\\chinese3.jpg"
     }
   ],
+  "appearance": {
+    "bucketWidth": 200,
+    "bucketHeight": 200,
+    "photoWidth": 300,
+    "photoHeight": 300
+  },
+  "scoring": {
+    "correctPoints": 20,
+    "incorrectPoints": -5 
+  },
   "shufflePhotos": true,
-  "photoRunTimeInMs": 3000 
+  "photoRunTimeInMs": 3000
 }
