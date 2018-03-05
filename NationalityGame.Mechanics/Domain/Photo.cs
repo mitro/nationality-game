@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 
 namespace NationalityGame.Mechanics.Domain
 {
@@ -10,6 +11,11 @@ namespace NationalityGame.Mechanics.Domain
 
         public Photo(Point center, string nationality, string imagePath) : base(center)
         {
+            if (string.IsNullOrWhiteSpace(nationality))
+                throw new ArgumentException($"{nameof(nationality)} is null or empty");
+            if (string.IsNullOrWhiteSpace(imagePath))
+                throw new ArgumentException($"{nameof(imagePath)} is null or empty");
+
             Nationality = nationality;
             ImagePath = imagePath;
         }

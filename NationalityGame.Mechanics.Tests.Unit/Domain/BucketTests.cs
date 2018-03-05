@@ -21,7 +21,7 @@ namespace NationalityGame.Mechanics.Tests.Unit.Domain
         {
             var bucket = new Bucket("Thai", new Point(1, 2));
 
-            bucket.Matches(new Photo(new Point(), "Thai", string.Empty)).Should().BeTrue();
+            bucket.Matches(new Photo(new Point(), "Thai", "1")).Should().BeTrue();
         }
 
         [Fact]
@@ -29,7 +29,7 @@ namespace NationalityGame.Mechanics.Tests.Unit.Domain
         {
             var bucket = new Bucket("Thai", new Point(1, 2));
 
-            bucket.Matches(new Photo(new Point(), "thai", string.Empty)).Should().BeTrue();
+            bucket.Matches(new Photo(new Point(), "thai", "1")).Should().BeTrue();
         }
 
         [Fact]
@@ -37,7 +37,7 @@ namespace NationalityGame.Mechanics.Tests.Unit.Domain
         {
             var bucket = new Bucket("Thai", new Point(1, 2));
 
-            bucket.Matches(new Photo(new Point(), "Chinese", string.Empty)).Should().BeFalse();
+            bucket.Matches(new Photo(new Point(), "Chinese", "1")).Should().BeFalse();
         }
     }
 }

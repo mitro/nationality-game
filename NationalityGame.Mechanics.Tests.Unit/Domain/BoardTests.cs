@@ -37,7 +37,7 @@ namespace NationalityGame.Mechanics.Tests.Unit.Domain
         {
             var board = new Board(boardWidth, boardHeight);
 
-            var photo = new Photo(new Point(pointX, pointY), string.Empty, string.Empty);
+            var photo = new Photo(new Point(pointX, pointY), "1", "1");
 
             board.PhotoIsOutside(photo).Should().BeFalse();
         }
@@ -46,7 +46,7 @@ namespace NationalityGame.Mechanics.Tests.Unit.Domain
         {
             var board = new Board(boardWidth, boardHeight);
 
-            var photo = new Photo(new Point(pointX, pointY), string.Empty, string.Empty);
+            var photo = new Photo(new Point(pointX, pointY), "1", "1");
 
             board.PhotoIsOutside(photo).Should().BeTrue();
         }

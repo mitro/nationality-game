@@ -10,6 +10,9 @@ namespace NationalityGame.Mechanics.Domain
         public Bucket(string nationality, Point center)
             : base(center)
         {
+            if (string.IsNullOrWhiteSpace(nationality))
+                throw new ArgumentException($"{nameof(nationality)} is null or empty");
+
             Nationality = nationality;
         }
 

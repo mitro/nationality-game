@@ -64,6 +64,8 @@
   <ItemGroup>
     <Compile Include="Domain\BoardTests.cs" />
     <Compile Include="Domain\BucketTests.cs" />
+    <Compile Include="Domain\GameTests.cs" />
+    <Compile Include="Domain\PhotoTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scoring\AddingScoringStrategyTests.cs" />
   </ItemGroup>

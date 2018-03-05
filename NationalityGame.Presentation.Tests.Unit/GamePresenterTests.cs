@@ -237,7 +237,7 @@ namespace NationalityGame.Presentation.Tests.Unit
 
             presenter.Start();
 
-            var photo = new Photo(new Point(), string.Empty, string.Empty);
+            var photo = new Photo(new Point(), "1", "1");
 
             env.Dependency<IGameEngine>()
                 .Raise(e => e.NextPhotoRun += null, photo);
