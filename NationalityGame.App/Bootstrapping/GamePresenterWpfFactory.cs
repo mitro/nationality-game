@@ -25,7 +25,7 @@ namespace NationalityGame.App.Bootstrapping
 
             var recognizer = new UserInteractionRecognizer(window.GameCanvas);
 
-            var ticker = new Ticker();
+            var ticker = new Ticker(settings.Appearance.TickIntervalInMs);
 
             return new GamePresenter(
                 game,

@@ -13,13 +13,15 @@ namespace NationalityGame.App.Interactivity.Wpf
 
         private DateTime _lastTickAt;
 
-        public Ticker()
+        public Ticker(int tickIntervalInMs)
         {
             _backgroundWorker = new BackgroundWorker();
-
             _backgroundWorker.DoWork += BackgroundWorkerOnDoWork;
 
-            _timer = new Timer { Interval = 30 };
+            _timer = new Timer
+            {
+                Interval = tickIntervalInMs
+            };
 
             _timer.Elapsed += OnTimerElapsed;
         }

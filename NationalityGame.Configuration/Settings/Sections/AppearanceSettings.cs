@@ -15,5 +15,11 @@ namespace NationalityGame.Configuration.Settings.Sections
 
         [JsonProperty(Required = Required.Always)]
         public double PhotoHeight { get; set; }
+
+        [JsonProperty(Required = Required.Always)]
+        public int PhotoRunTimeInMs { get; set; }
+
+        [JsonProperty(Required = Required.Always)]
+        public int TickIntervalInMs { get; set; }
     }
 }

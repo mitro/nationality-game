@@ -1,4 +1,9 @@
 ﻿{
+  "rules": {
+    "shufflePhotos": true,
+    "correctChoiceScore": 20,
+    "incorrectChoiceScore": -5
+  },
   "buckets": {
     "topLeft": {
       "nationality": "Japanese"
@@ -67,12 +72,8 @@
     "bucketWidth": 200,
     "bucketHeight": 200,
     "photoWidth": 300,
-    "photoHeight": 300
-  },
-  "scoring": {
-    "correctPoints": 20,
-    "incorrectPoints": -5 
-  },
-  "shufflePhotos": true,
-  "photoRunTimeInMs": 3000
+    "photoHeight": 300,
+    "photoRunTimeInMs": 3000,
+    "tickIntervalInMs":  20 
+  }
 }

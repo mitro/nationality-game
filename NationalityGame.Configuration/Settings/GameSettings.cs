@@ -7,6 +7,9 @@ namespace NationalityGame.Configuration.Settings
     public class GameSettings
     {
         [JsonProperty(Required = Required.Always)]
+        public RulesSettings Rules { get; set; }
+
+        [JsonProperty(Required = Required.Always)]
         public BucketsSettings Buckets { get; set; }
 
         [JsonProperty(Required = Required.Always)]
@@ -14,11 +17,5 @@ namespace NationalityGame.Configuration.Settings
 
         [JsonProperty(Required = Required.Always)]
         public AppearanceSettings Appearance { get; set; }
-
-        [JsonProperty(Required = Required.Always)]
-        public ScoringSettings Scoring { get; set; }
-
-        [JsonProperty(Required = Required.Always)]
-        public bool ShufflePhotos { get; set; }
     }
 }

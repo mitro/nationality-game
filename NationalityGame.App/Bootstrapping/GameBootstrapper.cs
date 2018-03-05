@@ -41,11 +41,11 @@ namespace NationalityGame.App.Bootstrapping
                     photo.ImagePath
                     ));
 
-            var velocity = board.Height / 3000;
+            var velocity = board.Height / settings.Appearance.PhotoRunTimeInMs;
 
-            var gameSettings = new Game.Settings(settings.ShufflePhotos, velocity);
+            var gameSettings = new Game.Settings(settings.Rules.ShufflePhotos, velocity);
 
-            var score = new ScoringStrategy(settings.Scoring.CorrectPoints, settings.Scoring.IncorrectPoints);
+            var score = new ScoringStrategy(settings.Rules.CorrectChoiceScore, settings.Rules.IncorrectChoiceScore);
 
             _game = new Game(gameSettings, board, buckets, photos, score);
 

@@ -48,7 +48,7 @@
     <Compile Include="Settings\Sections\BucketsSettings.cs" />
     <Compile Include="Settings\GameSettings.cs" />
     <Compile Include="Settings\Sections\PhotoSettings.cs" />
-    <Compile Include="Settings\Sections\ScoringSettings.cs" />
+    <Compile Include="Settings\Sections\RulesSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SettingsReader.cs" />
   </ItemGroup>
