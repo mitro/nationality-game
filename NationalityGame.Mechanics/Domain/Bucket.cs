@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 
 namespace NationalityGame.Mechanics.Domain
 {
@@ -19,6 +20,11 @@ namespace NationalityGame.Mechanics.Domain
             Position = position;
             Width = width;
             Height = height;
+        }
+
+        public bool Matches(Photo photo)
+        {
+            return Nationality.Equals(photo.Nationality, StringComparison.InvariantCultureIgnoreCase);
         }
     }
 }

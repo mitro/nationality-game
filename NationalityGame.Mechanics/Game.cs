@@ -12,7 +12,7 @@ namespace NationalityGame.Mechanics
     {
         private readonly Board _board;
 
-        private double _velocity;
+        private readonly double _velocity;
 
         public IEnumerable<Bucket> Buckets { get; }
 
@@ -26,29 +26,35 @@ namespace NationalityGame.Mechanics
 
         private Bucket _chosenBucket;
 
-        private int _currentScore;
-
         private Queue<Photo> _roundPhotos;
 
         private Photo _currentPhoto;
 
         private readonly IEnumerable<Photo> _photos;
 
+        private readonly Score _score;
+
         public Game(
             Board board,
             IEnumerable<Bucket> buckets,
-            IEnumerable<Photo> photos)
+            IEnumerable<Photo> photos,
+            Score score,
+            double velocity)
         {
             _board = board;
 
             Buckets = buckets;
 
             _photos = photos;
+
+            _score = score;
+
+            _velocity = velocity;
         }
 
         public void StartRound()
         {
-            _currentScore = 0;
+            _score.Reset();
 
             _roundPhotos = new Queue<Photo>(_photos.Select(p => p.Clone()));
 
@@ -67,7 +73,7 @@ namespace NationalityGame.Mechanics
                 }
                 else if (_chosenBucket != null)
                 {
-                    UpdateScore();
+                    _score.Change(_chosenBucket.Matches(_currentPhoto));
 
                     SendNextPhoto();
                 }
@@ -106,18 +112,6 @@ namespace NationalityGame.Mechanics
             BucketSelected?.Invoke(chosenBucket, _currentPhoto.GetVectorTo(chosenBucket).Length / _velocity);
         }
 
-        private void UpdateScore()
-        {
-            if (_currentPhoto.Nationality.Equals(_chosenBucket.Nationality, StringComparison.InvariantCultureIgnoreCase))
-            {
-                _currentScore += 20;
-            }
-            else
-            {
-                _currentScore -= 5;
-            }
-        }
-
         private bool PhotoLeftBoard()
         {
             return !_board.ObjectIsInside(_currentPhoto);
@@ -129,7 +123,7 @@ namespace NationalityGame.Mechanics
 
             if (_roundPhotos.Count == 0)
             {
-                RoundFinished?.Invoke(_currentScore);
+                RoundFinished?.Invoke(_score.TotalScore);
 
                 return;
             }
@@ -137,8 +131,6 @@ namespace NationalityGame.Mechanics
             _currentPhoto = _roundPhotos.Dequeue();
 
             _currentPhoto.SetMovementVector(new Vector(0, 1));
-
-            _velocity = _board.Height / 3000;
 
             NextPhotoSent?.Invoke(_currentPhoto);
         }

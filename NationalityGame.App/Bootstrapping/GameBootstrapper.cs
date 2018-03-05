@@ -30,7 +30,11 @@ namespace NationalityGame.App.Bootstrapping
                 new Photo(new Point(board.Width / 2, 0), "Thai"),
             };
 
-            _game = new Game(board, buckets, photos);
+            var velocity = board.Height / 3000;
+
+            var score = new Score(20, -5);
+
+            _game = new Game(board, buckets, photos, score, velocity);
 
             var presenterFactory = new GamePresenterWpfFactory();
 

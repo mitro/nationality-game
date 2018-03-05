@@ -49,6 +49,7 @@
     <Compile Include="Domain\Photo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Domain\GameObject.cs" />
+    <Compile Include="Score.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

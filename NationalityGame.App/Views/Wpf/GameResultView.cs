@@ -1,20 +1,18 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using NationalityGame.App.Utils;
 using NationalityGame.Presentation.Views;
 
 namespace NationalityGame.App.Views.Wpf
 {
     public class GameResultView : IGameResultView
     {
-        private readonly System.Windows.Controls.Canvas _canvas;
         private readonly Label _label;
         private readonly StackPanel _stackPanel;
 
-        public GameResultView(System.Windows.Controls.Canvas canvas)
+        public GameResultView(Canvas canvas)
         {
-            _canvas = canvas;
-
             _stackPanel = new StackPanel
             {
                 Width = 400,
@@ -22,10 +20,10 @@ namespace NationalityGame.App.Views.Wpf
                 Visibility = Visibility.Hidden,
             };
 
-            System.Windows.Controls.Canvas.SetLeft(_stackPanel, (_canvas.ActualWidth - _stackPanel.Width) / 2);
-            System.Windows.Controls.Canvas.SetTop(_stackPanel, (_canvas.ActualHeight - _stackPanel.Height) / 2);
+            Canvas.SetLeft(_stackPanel, (canvas.ActualWidth - _stackPanel.Width) / 2);
+            Canvas.SetTop(_stackPanel, (canvas.ActualHeight - _stackPanel.Height) / 2);
 
-            _canvas.Children.Add(_stackPanel);
+            canvas.Children.Add(_stackPanel);
 
             _label = new Label
             {
@@ -57,9 +55,9 @@ namespace NationalityGame.App.Views.Wpf
 
         public void Show(int totalScore)
         {
-            Application.Current.Dispatcher.Invoke(() =>
+            UiThread.Dispatch(() =>
             {
-                _label.Content = $"You total score is {totalScore}";
+                _label.Content = $"Your total score is {totalScore}";
 
                 _stackPanel.Visibility = Visibility.Visible;
             });
@@ -67,7 +65,7 @@ namespace NationalityGame.App.Views.Wpf
 
         public void Hide()
         {
-            Application.Current.Dispatcher.Invoke(() =>
+            UiThread.Dispatch(() =>
             {
                 _label.Content = string.Empty;
 
