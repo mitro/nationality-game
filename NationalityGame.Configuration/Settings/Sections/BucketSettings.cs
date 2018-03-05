@@ -1,4 +1,4 @@
-﻿namespace NationalityGame.Mechanics.Configuration
+﻿namespace NationalityGame.Configuration.Settings.Sections
 {
     public class BucketSettings
     {

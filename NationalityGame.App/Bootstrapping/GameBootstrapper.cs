@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using NationalityGame.Configuration;
 using NationalityGame.Mechanics;
 using NationalityGame.Mechanics.Domain;
 using NationalityGame.Presentation;

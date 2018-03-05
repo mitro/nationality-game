@@ -34,9 +34,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -62,8 +59,6 @@
     <Compile Include="Interactivity\Wpf\Ticker.cs" />
     <Compile Include="Views\Wpf\GameResultView.cs" />
     <Compile Include="Utils\UiThread.cs" />
-    <Compile Include="SettingsReader.cs" />
-    <None Include="packages.config" />
     <None Include="settings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -110,6 +105,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NationalityGame.Configuration\NationalityGame.Configuration.csproj">
+      <Project>{8212CD46-CEF6-4D84-92A2-FF6E1996F215}</Project>
+      <Name>NationalityGame.Configuration</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NationalityGame.Mechanics\NationalityGame.Mechanics.csproj">
       <Project>{A6E54DF0-8BF2-4E61-8441-C77C847A8470}</Project>
       <Name>NationalityGame.Mechanics</Name>

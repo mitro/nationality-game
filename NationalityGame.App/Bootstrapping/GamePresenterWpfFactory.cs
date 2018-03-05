@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using NationalityGame.App.Interactivity.Wpf;
 using NationalityGame.App.Views.Wpf;
+using NationalityGame.Configuration.Settings;
 using NationalityGame.Mechanics;
-using NationalityGame.Mechanics.Configuration;
 using NationalityGame.Presentation;
 
 namespace NationalityGame.App.Bootstrapping

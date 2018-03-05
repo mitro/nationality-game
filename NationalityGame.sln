@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NationalityGame.Mechanics",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NationalityGame.Presentation", "NationalityGame.Presentation\NationalityGame.Presentation.csproj", "{62010355-82E7-4B8D-B766-1FF00D955654}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NationalityGame.Configuration", "NationalityGame.Configuration\NationalityGame.Configuration.csproj", "{8212CD46-CEF6-4D84-92A2-FF6E1996F215}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{62010355-82E7-4B8D-B766-1FF00D955654}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{62010355-82E7-4B8D-B766-1FF00D955654}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{62010355-82E7-4B8D-B766-1FF00D955654}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8212CD46-CEF6-4D84-92A2-FF6E1996F215}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8212CD46-CEF6-4D84-92A2-FF6E1996F215}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8212CD46-CEF6-4D84-92A2-FF6E1996F215}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8212CD46-CEF6-4D84-92A2-FF6E1996F215}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

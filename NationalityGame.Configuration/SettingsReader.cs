@@ -1,8 +1,8 @@
 ﻿using System.IO;
-using NationalityGame.Mechanics.Configuration;
+using NationalityGame.Configuration.Settings;
 using Newtonsoft.Json;
 
-namespace NationalityGame.App
+namespace NationalityGame.Configuration
 {
     public class SettingsReader
     {

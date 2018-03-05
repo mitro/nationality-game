@@ -79,7 +79,7 @@ namespace NationalityGame.Mechanics
 
         public void ProcessPan(Vector vector)
         {
-            if (_chosenBucket != null)
+            if (BucketAlreadyChosen())
             {
                 return;
             }
@@ -96,6 +96,11 @@ namespace NationalityGame.Mechanics
             _runningPhoto.SetMovementVector(_runningPhoto.GetVectorTo(chosenBucket));
 
             BucketChosen?.Invoke(chosenBucket, CalcTimeToReach(chosenBucket));
+        }
+
+        private bool BucketAlreadyChosen()
+        {
+            return _chosenBucket != null;
         }
 
         private double CalcTimeToReach(Bucket chosenBucket)
